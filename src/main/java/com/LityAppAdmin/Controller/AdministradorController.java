@@ -2,6 +2,7 @@ package com.LityAppAdmin.Controller;
 
 import com.LityAppAdmin.Model.AdministradorModel;
 import com.LityAppAdmin.Repository.IAdministradorRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,13 +38,11 @@ public class AdministradorController {
             return "redirect:/api/admin/index";
         } else {
             System.out.println("Administrador no encontrado con el correo y contraseña proporcionados.");
-            return "redirect:/api/admin/";
+            return "redirect:/api/admin/?error=true";
         }
     }
 
-
-
-
+    // Muestra la página de inicio
     @GetMapping("/index")
     public String mostrarIndexAdmin(HttpSession session) {
         if (session.getAttribute("admin") != null) {
@@ -51,6 +50,95 @@ public class AdministradorController {
         } else {
             return "redirect:/api/admin/"; // Redirige al login si no está autenticado
         }
+    }
+
+    // Muestra la página para crear guía rápida
+    @GetMapping("/crear-guia-rapida")
+    public String mostrarCrearGuiaRapida(HttpSession session) {
+        if (session.getAttribute("admin") != null) {
+            return "CrearGuiaRapida"; // Nombre del archivo HTML
+        } else {
+            return "redirect:/api/admin/"; // Redirige al login si no está autenticado
+        }
+    }
+
+    // Muestra la página para editar guías rápidas
+    @GetMapping("/editar-guias-rapidas")
+    public String mostrarEditarGuiasRapidas(HttpSession session) {
+        if (session.getAttribute("admin") != null) {
+            return "EditarGuiasRapidas"; // Nombre del archivo HTML
+        } else {
+            return "redirect:/api/admin/"; // Redirige al login si no está autenticado
+        }
+    }
+
+    // Muestra la página para crear nueva experiencia
+    @GetMapping("/crear-experiencia")
+    public String mostrarCrearExperiencia(HttpSession session) {
+        if (session.getAttribute("admin") != null) {
+            return "CrearExperiencia"; // Nombre del archivo HTML
+        } else {
+            return "redirect:/api/admin/"; // Redirige al login si no está autenticado
+        }
+    }
+
+    // Muestra la página para editar experiencias
+    @GetMapping("/editar-experiencias")
+    public String mostrarEditarExperiencias(HttpSession session) {
+        if (session.getAttribute("admin") != null) {
+            return "EditarExperiencias"; // Nombre del archivo HTML
+        } else {
+            return "redirect:/api/admin/"; // Redirige al login si no está autenticado
+        }
+    }
+
+    // Muestra la página para crear nueva noticia
+    @GetMapping("/crear-noticia")
+    public String mostrarCrearNoticia(HttpSession session) {
+        if (session.getAttribute("admin") != null) {
+            return "CrearNoticia"; // Nombre del archivo HTML
+        } else {
+            return "redirect:/api/admin/"; // Redirige al login si no está autenticado
+        }
+    }
+
+    // Muestra la página para editar noticias
+    @GetMapping("/editar-noticias")
+    public String mostrarEditarNoticias(HttpSession session) {
+        if (session.getAttribute("admin") != null) {
+            return "EditarNoticias"; // Nombre del archivo HTML
+        } else {
+            return "redirect:/api/admin/"; // Redirige al login si no está autenticado
+        }
+    }
+
+    // Muestra la página para crear nuevo tour
+    @GetMapping("/crear-tour")
+    public String mostrarCrearTour(HttpSession session) {
+        if (session.getAttribute("admin") != null) {
+            return "CrearTour"; // Nombre del archivo HTML
+        } else {
+            return "redirect:/api/admin/"; // Redirige al login si no está autenticado
+        }
+    }
+
+    // Muestra la página para editar tours
+    @GetMapping("/editar-tours")
+    public String mostrarEditarTours(HttpSession session) {
+        if (session.getAttribute("admin") != null) {
+            return "EditarTours"; // Nombre del archivo HTML
+        } else {
+            return "redirect:/api/admin/"; // Redirige al login si no está autenticado
+        }
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false); // Obtiene la sesión actual
+        if (session != null) {
+            session.invalidate(); // Invalida la sesión
+        }
+        return "redirect:/api/admin/"; // Redirige al inicio de sesión
     }
 
 

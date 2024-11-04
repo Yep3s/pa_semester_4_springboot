@@ -20,51 +20,52 @@
     <!-- Barra de Navegación -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
-          <a class="navbar-brand" href="IndexAdmin.html">Admin | Lity App </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav me-auto mb-2 mb-md-0">
-              <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="IndexAdmin.html">Inicio</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Guias Rapidas</a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="CrearGuiaRapida.html">Crear guia rapida</a></li>
-                  <li><a class="dropdown-item" href="EditarGuiasRapidas.html">Eliminar o editar Guias Rapidas</a></li>
+            <a class="navbar-brand" href="/api/admin/index">Admin | Lity App</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/api/admin/index">Inicio</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Guias Rapidas</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/api/admin/crear-guia-rapida">Crear guía rápida</a></li>
+                            <li><a class="dropdown-item" href="/api/admin/editar-guias-rapidas">Eliminar o editar Guías Rápidas</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Experiencias</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/api/admin/crear-experiencia">Crear nueva experiencia</a></li>
+                            <li><a class="dropdown-item" href="/api/admin/editar-experiencias">Eliminar o editar experiencia</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Noticias</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/api/admin/crear-noticia">Crear Nueva Noticia</a></li>
+                            <li><a class="dropdown-item" href="/api/admin/editar-noticias">Eliminar o editar Noticias</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Tour Por La Ciudad</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/api/admin/crear-tour">Crear Nuevo Tour</a></li>
+                            <li><a class="dropdown-item" href="/api/admin/editar-tours">Eliminar o editar Tours</a></li>
+                        </ul>
+                    </li>
                 </ul>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Experiencias</a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="CrearExperiencia.html">Crear nueva experiencia</a></li>
-                  <li><a class="dropdown-item" href="EditarExperiencias.html">Eliminar o editar experiencia</a></li>
-                </ul>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Noticias</a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="CrearNoticia.html">Crear Nueva Noticia</a></li>
-                  <li><a class="dropdown-item" href="EditarNoticias.html">Eliminar o editar Noticias</a></li>
-                </ul>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Tour Por La Ciudad</a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="CrearTour.html">Crear Nuevo Tour</a></li>
-                  <li><a class="dropdown-item" href="EditarTours.html">Eliminar o editar Tours </a></li>
-                </ul>
-              </li>
-            </ul>
-            <div class="d-flex ms-auto">
-                <button type="button" class="btn btn-warning" onclick="window.location.href='LoginAdmin.html'">Cerrar Sesion</button>
+                <div class="d-flex ms-auto">
+                    <form action="/api/admin/logout" method="post" style="display: inline;">
+                        <button type="submit" class="btn btn-warning">Cerrar Sesión</button>
+                    </form>
+                </div>
             </div>
-
-          </div>
         </div>
-      </nav>
+    </nav>
 
          <!-- Body -->
 
@@ -75,8 +76,8 @@
             <div class="col-lg-6 mx-auto">
               <p class="lead mb-4">Bienvenido/a al panel de administracion de lity app, desde aqui podras gestionar todas las funciones que visualiza tu usuario principal y mucho mas! .</p>
               <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Crea Un Nuevo Tour</button>
-                <button type="button" class="btn btn-primary btn-lg px-4">Crear Nueva Experiencia</button>
+                <a class="btn btn-primary btn-lg px-4 gap-3" href="/api/admin/crear-tour">Crea Un Nuevo Tour</a>
+                <a class="btn btn-primary btn-lg px-4" href="/api/admin/crear-experiencia">Crear Nueva Experiencia</a>
               </div>
             </div>
           </div>
@@ -84,18 +85,18 @@
 
       </main>
 
-      <div class="container">
+    <div class="container">
         <footer class="py-3 my-4">
-          <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item"><a href="IndexAdmin.html" class="nav-link px-2 text-body-secondary">Inicio</a></li>
-            <li class="nav-item"><a href="EditarGuiasRapidas.html" class="nav-link px-2 text-body-secondary">Guias Rapidas</a></li>
-            <li class="nav-item"><a href="EditarExperiencias.html" class="nav-link px-2 text-body-secondary">Experiencias</a></li>
-            <li class="nav-item"><a href="EditarNoticias.html" class="nav-link px-2 text-body-secondary">Noticias</a></li>
-            <li class="nav-item"><a href="EditarTours.html" class="nav-link px-2 text-body-secondary">Tour Por La Ciudad</a></li>
-          </ul>
-          <p class="text-center text-body-secondary">©Lity App, Inc</p>
+            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                <li class="nav-item"><a href="/api/admin/index" class="nav-link px-2 text-body-secondary">Inicio</a></li>
+                <li class="nav-item"><a href="/api/admin/editar-guias-rapidas" class="nav-link px-2 text-body-secondary">Guias Rapidas</a></li>
+                <li class="nav-item"><a href="/api/admin/editar-experiencias" class="nav-link px-2 text-body-secondary">Experiencias</a></li>
+                <li class="nav-item"><a href="/api/admin/editar-noticias" class="nav-link px-2 text-body-secondary">Noticias</a></li>
+                <li class="nav-item"><a href="/api/admin/editar-tours" class="nav-link px-2 text-body-secondary">Tour Por La Ciudad</a></li>
+            </ul>
+            <p class="text-center text-body-secondary">©Lity App, Inc</p>
         </footer>
-      </div>
+    </div>
 
 
 

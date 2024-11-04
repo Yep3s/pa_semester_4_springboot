@@ -31,8 +31,20 @@
     <button class="btn btn-primary w-100 py-2" type="submit">Iniciar Sesión</button>
     <p class="mt-5 mb-3 text-body-secondary">&copy; Lity App - 2024</p>
   </form>
+
+  <div id="errorDialog" class="alert alert-danger" role="alert" style="display: none;">
+    <strong>Error:</strong> El correo o la contraseña son incorrectos. Por favor, intenta de nuevo.
+  </div>
 </main>
 
 <script src="/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('error')) {
+      document.getElementById('errorDialog').style.display = 'block';
+    }
+  });
+</script>
 </body>
 </html>
