@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Editar Guia Rapida | Lity App</title>
+    
+    <link rel="icon" type="image/x-icon" href="/Images/LityAppFavicon2.png" />
+    <link rel="stylesheet" href="/css/bootstrap.css" />
+    <link rel="stylesheet" href="/css/styles.css" /> 
+    <link rel="stylesheet" href="/css/nav-styles.css">
+    <link rel="stylesheet" href="/css/navbar-fixed.css">
+    <link rel="stylesheet" href="/css/hero-style.css">
+    <link rel="stylesheet" href="/css/animated-background.css">
+
+</head>
+<body class="animated-bg-pinky">
+
+    <!-- Barra de Navegación -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="IndexAdmin.html">Admin | Lity App </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav me-auto mb-2 mb-md-0">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="IndexAdmin.html">Inicio</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Guias Rapidas</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="CrearGuiaRapida.html">Crear guia rapida</a></li>
+                <li><a class="dropdown-item" href="EditarGuiasRapidas.html">Eliminar o editar Guias Rapidas</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Experiencias</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="CrearExperiencia.html">Crear nueva experiencia</a></li>
+                <li><a class="dropdown-item" href="EditarExperiencias.html">Eliminar o editar experiencia</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Noticias</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="CrearNoticia.html">Crear Nueva Noticia</a></li>
+                <li><a class="dropdown-item" href="EditarNoticias.html">Eliminar o editar Noticias</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Tour Por La Ciudad</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="CrearTour.html">Crear Nuevo Tour</a></li>
+                <li><a class="dropdown-item" href="EditarTours.html">Eliminar o editar Tours </a></li>
+              </ul>
+            </li>
+          </ul>
+          <div class="d-flex ms-auto">
+              <button type="button" class="btn btn-warning" onclick="window.location.href='LoginAdmin.html'">Cerrar Sesion</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <div class="container mt-5">
+      <div class="text-center">
+
+        <img class="mb-4" src="/Images/LityLogoLogin.png" alt="Logo Lity App" >
+
+        <h2 class="text-center mb-4">Administrador De Guías Rápidas</h2>
+      </div>
+
+      
+      <!-- Tabla para listar las guías rápidas -->
+      <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th>#</th>
+            <th>Título</th>
+            <th>Tipo de Guía</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Guía de Comida Típica</td>
+            <td>Guía Rápida de Comida Típica</td>
+            <td>
+              <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal" onclick="fillEditForm('Guía de Comida Típica', 'Guía Rápida de Comida Típica', 'Parrafo de ejemplo')">Editar</button>
+              <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Modal para editar -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editModalLabel">Editar Guía Rápida</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="editForm">
+              <div class="mb-3">
+                <label for="tituloGuia" class="form-label">Título de la Guía</label>
+                <input type="text" class="form-control" id="tituloGuia" required>
+              </div>
+              <div class="mb-3">
+                <label for="tipoGuia" class="form-label">Tipo de Guía</label>
+                <select class="form-select" id="tipoGuia" required>
+                  <option value="Guía Rápida de Comida Típica">Guía Rápida de Comida Típica</option>
+                  <option value="Guía Rápida de Atracciones">Guía Rápida de Atracciones</option>
+                  <option value="Guía Rápida de Transporte">Guía Rápida de Transporte</option>
+                  <option value="Guía Rápida de Consejos de Seguridad">Tips De Seguridad</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="parrafoGuia" class="form-label">Párrafo de la Guía</label>
+                <textarea class="form-control" id="parrafoGuia" rows="3" required></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="imagenesGuia" class="form-label">Imágenes de la Guía</label>
+                <input type="file" class="form-control" id="imagenesGuia" multiple>
+              </div>
+              <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal para eliminar -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Eliminar Guía</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            ¿Estás seguro de que deseas eliminar esta guía rápida?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-danger">Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pie de página -->
+    <div class="container">
+      <footer class="py-3 my-4">
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+          <li class="nav-item"><a href="IndexAdmin.html" class="nav-link px-2 text-body-secondary">Inicio</a></li>
+          <li class="nav-item"><a href="EditarGuiasRapidas.html" class="nav-link px-2 text-body-secondary">Guias Rapidas</a></li>
+          <li class="nav-item"><a href="EditarExperiencias.html" class="nav-link px-2 text-body-secondary">Experiencias</a></li>
+          <li class="nav-item"><a href="EditarNoticias.html" class="nav-link px-2 text-body-secondary">Noticias</a></li>
+          <li class="nav-item"><a href="EditarTours.html" class="nav-link px-2 text-body-secondary">Tour Por La Ciudad</a></li>
+        </ul>
+        <p class="text-center text-body-secondary">©Lity App, Inc</p>
+      </footer>
+    </div>
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script>
+      function fillEditForm(titulo, tipo, parrafo) {
+        document.getElementById('tituloGuia').value = titulo;
+        document.getElementById('tipoGuia').value = tipo;
+        document.getElementById('parrafoGuia').value = parrafo;
+      }
+    </script>
+</body>
+</html>
