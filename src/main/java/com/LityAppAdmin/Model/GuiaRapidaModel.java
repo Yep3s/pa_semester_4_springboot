@@ -1,8 +1,10 @@
 package com.LityAppAdmin.Model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 
 @Entity
 @Table(name = "guias_rapidas")
@@ -10,26 +12,26 @@ public class GuiaRapidaModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idGuia;
+    private Long id;
 
     private String tipoDeGuia;
     private String titulo;
     private String parrafo;
-    private String imagen;
 
-    @Column(name = "fecha_de_creacion",updatable = false)
-    private Timestamp fechaDeCreacion;
+    // Campo para almacenar solo el correo del administrador
+    private String correoAdministrador;
 
-    @ManyToOne
-    @JoinColumn(name = "cedula")
-    private AdministradorModel administradorModel;
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime fechaDeCreacion;
 
-    public int getIdGuia() {
-        return idGuia;
+    // Getters y Setters
+    public Long getId() {
+        return id;
     }
 
-    public void setIdGuia(int idGuia) {
-        this.idGuia = idGuia;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTipoDeGuia() {
@@ -56,28 +58,18 @@ public class GuiaRapidaModel {
         this.parrafo = parrafo;
     }
 
-    public String getImagen() {
-        return imagen;
+    public String getCorreoAdministrador() {
+        return correoAdministrador;
     }
 
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
+    public void setCorreoAdministrador(String correoAdministrador) {
+        this.correoAdministrador = correoAdministrador;
     }
 
-    public Timestamp getFechaDeCreacion() {
+    public LocalDateTime getFechaDeCreacion() {
         return fechaDeCreacion;
     }
 
-    public void setFechaDeCreacion(Timestamp fechaDeCreacion) {
-        this.fechaDeCreacion = fechaDeCreacion;
-    }
-
-    public AdministradorModel getAdministrador() {
-        return administradorModel;
-    }
-
-    public void setAdministrador(AdministradorModel administradorModel) {
-        this.administradorModel = administradorModel;
-    }
-
 }
+
+

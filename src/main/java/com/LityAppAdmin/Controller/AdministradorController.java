@@ -1,22 +1,46 @@
 package com.LityAppAdmin.Controller;
 
 import com.LityAppAdmin.Model.AdministradorModel;
+import com.LityAppAdmin.Model.GuiaRapidaModel;
 import com.LityAppAdmin.Repository.IAdministradorRepository;
+import com.LityAppAdmin.Repository.IGuiaRapidaRepository;
+import com.LityAppAdmin.Service.GuiaRapidaService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/api/admin")
 public class AdministradorController {
 
+    private final GuiaRapidaService guiaRapidaService;
+
+    public AdministradorController(GuiaRapidaService guiaRapidaService) {
+        this.guiaRapidaService = guiaRapidaService;
+    }
+
+
+
     @Autowired
     private IAdministradorRepository administradorRepository;
+
+    @Autowired
+    private IGuiaRapidaRepository guiaRapidaRepository;
+
+
 
     // Muestra el formulario de login
     @GetMapping("/")
@@ -34,7 +58,7 @@ public class AdministradorController {
 
         Optional<AdministradorModel> adminOptional = administradorRepository.findByCorreoAndPassword(correo, password);
         if (adminOptional.isPresent()) {
-            session.setAttribute("admin", adminOptional.get());
+            session.setAttribute("adminCorreo", correo);
             return "redirect:/api/admin/index";
         } else {
             System.out.println("Administrador no encontrado con el correo y contraseña proporcionados.");
@@ -42,30 +66,62 @@ public class AdministradorController {
         }
     }
 
+    // Método privado para obtener la cédula del administrador desde la sesión
+    private String obtenerCorreoAdministrador(HttpSession session) {
+        String correo = (String) session.getAttribute("adminCorreo");
+        if (correo != null) {
+            return correo;
+        } else {
+            throw new IllegalStateException("No hay un administrador en sesión.");
+        }
+    }
+
     // Muestra la página de inicio
     @GetMapping("/index")
     public String mostrarIndexAdmin(HttpSession session) {
-        if (session.getAttribute("admin") != null) {
+        if (session.getAttribute("adminCorreo") != null) {
             return "IndexAdmin"; // Nombre del archivo HTML sin la extensión
         } else {
             return "redirect:/api/admin/"; // Redirige al login si no está autenticado
         }
     }
 
+
     // Muestra la página para crear guía rápida
     @GetMapping("/crear-guia-rapida")
     public String mostrarCrearGuiaRapida(HttpSession session) {
-        if (session.getAttribute("admin") != null) {
+        if (session.getAttribute("adminCorreo") != null) {
             return "CrearGuiaRapida"; // Nombre del archivo HTML
         } else {
-            return "redirect:/api/admin/"; // Redirige al login si no está autenticado
+            return "redirect:/api/admin/index"; // Redirige al login si no está autenticado
+        }
+    }
+
+    @PostMapping("/create-guia")
+    public String crearGuia(@RequestParam("tipoDeGuia") String tipoDeGuia,
+                            @RequestParam("titulo") String titulo,
+                            @RequestParam("parrafo") String parrafo,
+                            @RequestParam("imagen") List<MultipartFile> archivos,
+                            HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            String correo = obtenerCorreoAdministrador(session);
+            guiaRapidaService.guardarGuia(tipoDeGuia, titulo, parrafo, archivos, correo);
+
+            // Agregar un mensaje de éxito para mostrarlo en el frontend
+            redirectAttributes.addFlashAttribute("successMessage", "¡Guía creada exitosamente!");
+
+            // Redirigir a la misma página para mostrar el mensaje
+            return "redirect:/api/admin/crear-guia-rapida";
+        } catch (IOException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error al crear la guía: " + e.getMessage());
+            return "redirect:/api/admin/crear-guia-rapida";
         }
     }
 
     // Muestra la página para editar guías rápidas
     @GetMapping("/editar-guias-rapidas")
     public String mostrarEditarGuiasRapidas(HttpSession session) {
-        if (session.getAttribute("admin") != null) {
+        if (session.getAttribute("adminCorreo") != null) {
             return "EditarGuiasRapidas"; // Nombre del archivo HTML
         } else {
             return "redirect:/api/admin/"; // Redirige al login si no está autenticado
@@ -75,7 +131,7 @@ public class AdministradorController {
     // Muestra la página para crear nueva experiencia
     @GetMapping("/crear-experiencia")
     public String mostrarCrearExperiencia(HttpSession session) {
-        if (session.getAttribute("admin") != null) {
+        if (session.getAttribute("adminCorreo") != null) {
             return "CrearExperiencia"; // Nombre del archivo HTML
         } else {
             return "redirect:/api/admin/"; // Redirige al login si no está autenticado
@@ -85,7 +141,7 @@ public class AdministradorController {
     // Muestra la página para editar experiencias
     @GetMapping("/editar-experiencias")
     public String mostrarEditarExperiencias(HttpSession session) {
-        if (session.getAttribute("admin") != null) {
+        if (session.getAttribute("adminCorreo") != null) {
             return "EditarExperiencias"; // Nombre del archivo HTML
         } else {
             return "redirect:/api/admin/"; // Redirige al login si no está autenticado
@@ -95,7 +151,7 @@ public class AdministradorController {
     // Muestra la página para crear nueva noticia
     @GetMapping("/crear-noticia")
     public String mostrarCrearNoticia(HttpSession session) {
-        if (session.getAttribute("admin") != null) {
+        if (session.getAttribute("adminCorreo") != null) {
             return "CrearNoticia"; // Nombre del archivo HTML
         } else {
             return "redirect:/api/admin/"; // Redirige al login si no está autenticado
@@ -105,7 +161,7 @@ public class AdministradorController {
     // Muestra la página para editar noticias
     @GetMapping("/editar-noticias")
     public String mostrarEditarNoticias(HttpSession session) {
-        if (session.getAttribute("admin") != null) {
+        if (session.getAttribute("adminCorreo") != null) {
             return "EditarNoticias"; // Nombre del archivo HTML
         } else {
             return "redirect:/api/admin/"; // Redirige al login si no está autenticado
@@ -115,7 +171,7 @@ public class AdministradorController {
     // Muestra la página para crear nuevo tour
     @GetMapping("/crear-tour")
     public String mostrarCrearTour(HttpSession session) {
-        if (session.getAttribute("admin") != null) {
+        if (session.getAttribute("adminCorreo") != null) {
             return "CrearTour"; // Nombre del archivo HTML
         } else {
             return "redirect:/api/admin/"; // Redirige al login si no está autenticado
@@ -125,7 +181,7 @@ public class AdministradorController {
     // Muestra la página para editar tours
     @GetMapping("/editar-tours")
     public String mostrarEditarTours(HttpSession session) {
-        if (session.getAttribute("admin") != null) {
+        if (session.getAttribute("adminCorreo") != null) {
             return "EditarTours"; // Nombre del archivo HTML
         } else {
             return "redirect:/api/admin/"; // Redirige al login si no está autenticado
