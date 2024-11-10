@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es-CO">
+<html lang="es-CO" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -66,98 +66,99 @@
   </div>
 </nav>
 
-    <!-- Contenido principal -->
-    <div class="container mt-5">
-      <div class="text-center">
+<!-- Contenido principal -->
+<div class="container mt-5">
+  <div class="text-center">
+    <img class="mb-4" src="/Images/LityLogoLogin.png" alt="Logo Lity App">
+    <h2 class="text-center mb-4">Administrador De Guías Rápidas</h2>
+  </div>
 
-        <img class="mb-4" src="/Images/LityLogoLogin.png" alt="Logo Lity App" >
+  <!-- Tabla para listar las guías rápidas -->
+  <table class="table table-bordered table-hover">
+    <thead class="table-dark">
+    <tr>
+      <th>#</th>
+      <th>Título</th>
+      <th>Tipo de Guía</th>
+      <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="guia : ${guias}">
+      <th scope="row" th:text="${guia.id}"></th>
+      <td th:text="${guia.titulo}"></td>
+      <td th:text="${guia.tipoDeGuia}"></td>
+      <td>
+        <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal"
+                data-id="[[${guia.id}]]" data-titulo="[[${guia.titulo}]]" data-tipo="[[${guia.tipoDeGuia}]]" data-parrafo="[[${guia.parrafo}]]"
+                onclick="fillEditForm(this)">Editar</button>
+        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                th:attr="onclick='setGuiaId(${guia.id})'">Eliminar</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
 
-        <h2 class="text-center mb-4">Administrador De Guías Rápidas</h2>
+<!-- Modal para editar -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Editar Guía Rápida</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-
-      
-      <!-- Tabla para listar las guías rápidas -->
-      <table class="table table-bordered table-hover">
-        <thead class="table-dark">
-          <tr>
-            <th>#</th>
-            <th>Título</th>
-            <th>Tipo de Guía</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Guía de Comida Típica</td>
-            <td>Guía Rápida de Comida Típica</td>
-            <td>
-              <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal" onclick="fillEditForm('Guía de Comida Típica', 'Guía Rápida de Comida Típica', 'Parrafo de ejemplo')">Editar</button>
-              <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">Eliminar</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Modal para editar -->
-    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="editModalLabel">Editar Guía Rápida</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-body">
+        <form id="editForm">
+          <input type="hidden" id="guiaId">
+          <div class="mb-3">
+            <label for="tituloGuia" class="form-label">Título de la Guía</label>
+            <input type="text" class="form-control" id="tituloGuia" required>
           </div>
-          <div class="modal-body">
-            <form id="editForm">
-              <div class="mb-3">
-                <label for="tituloGuia" class="form-label">Título de la Guía</label>
-                <input type="text" class="form-control" id="tituloGuia" required>
-              </div>
-              <div class="mb-3">
-                <label for="tipoGuia" class="form-label">Tipo de Guía</label>
-                <select class="form-select" id="tipoGuia" required>
-                  <option value="Guía Rápida de Comida Típica">Guía Rápida de Comida Típica</option>
-                  <option value="Guía Rápida de Atracciones">Guía Rápida de Atracciones</option>
-                  <option value="Guía Rápida de Transporte">Guía Rápida de Transporte</option>
-                  <option value="Guía Rápida de Consejos de Seguridad">Tips De Seguridad</option>
-                </select>
-              </div>
-              <div class="mb-3">
-                <label for="parrafoGuia" class="form-label">Párrafo de la Guía</label>
-                <textarea class="form-control" id="parrafoGuia" rows="3" required></textarea>
-              </div>
-              <div class="mb-3">
-                <label for="imagenesGuia" class="form-label">Imágenes de la Guía</label>
-                <input type="file" class="form-control" id="imagenesGuia" multiple>
-              </div>
-              <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-            </form>
+          <div class="mb-3">
+            <label for="tipoGuia" class="form-label">Tipo de Guía</label>
+            <select class="form-select" id="tipoGuia" required>
+              <option value="Comida Típica">Guía Rápida de Comida Típica</option>
+              <option value="Atracciones">Guía Rápida de Atracciones</option>
+              <option value="Transporte">Guía Rápida de Transporte</option>
+              <option value="Seguridad">Tips De Seguridad</option>
+            </select>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal para eliminar -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="deleteModalLabel">Eliminar Guía</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div class="mb-3">
+            <label for="parrafoGuia" class="form-label">Párrafo de la Guía</label>
+            <textarea class="form-control" id="parrafoGuia" rows="3" required></textarea>
           </div>
-          <div class="modal-body">
-            ¿Estás seguro de que deseas eliminar esta guía rápida?
+          <div class="mb-3">
+            <label for="imagenesGuia" class="form-label">Imágenes de la Guía</label>
+            <input type="file" class="form-control" id="imagenesGuia" multiple>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-danger">Eliminar</button>
-          </div>
-        </div>
+          <button type="button" class="btn btn-primary" onclick="actualizarGuia()">Guardar Cambios</button>
+        </form>
       </div>
     </div>
+  </div>
+</div>
 
-    <!-- Pie de página -->
+<!-- Modal para eliminar -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Eliminar Guía</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que deseas eliminar esta guía rápida?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" onclick="eliminarGuia()">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pie de página -->
 <div class="container">
   <footer class="py-3 my-4">
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
@@ -171,13 +172,61 @@
   </footer>
 </div>
 
-    <script src="/js/bootstrap.bundle.min.js"></script>
-    <script>
-      function fillEditForm(titulo, tipo, parrafo) {
-        document.getElementById('tituloGuia').value = titulo;
-        document.getElementById('tipoGuia').value = tipo;
-        document.getElementById('parrafoGuia').value = parrafo;
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script>
+  let guiaIdParaEliminar = null;
+
+  function setGuiaId(id) {
+      guiaIdParaEliminar = id;
+  }
+
+  function eliminarGuia() {
+      fetch(`/api/admin/eliminar-guia/${guiaIdParaEliminar}`, {
+          method: 'DELETE',
+      }).then(response => {
+          if (response.ok) {
+              alert("¡Guía rápida eliminada correctamente!");
+              window.location.href = "/api/admin/editar-guias-rapidas";
+          } else {
+              alert("Error al eliminar la guía rápida.");
+          }
+      });
+  }
+
+  function fillEditForm(button) {
+      document.getElementById('guiaId').value = button.getAttribute('data-id');
+      document.getElementById('tituloGuia').value = button.getAttribute('data-titulo');
+      document.getElementById('tipoGuia').value = button.getAttribute('data-tipo');
+      document.getElementById('parrafoGuia').value = button.getAttribute('data-parrafo');
+  }
+
+  function actualizarGuia() {
+      const guiaId = document.getElementById('guiaId').value;
+      const titulo = document.getElementById('tituloGuia').value;
+      const tipoDeGuia = document.getElementById('tipoGuia').value;
+      const parrafo = document.getElementById('parrafoGuia').value;
+      const imagenes = document.getElementById('imagenesGuia').files;
+
+      const formData = new FormData();
+      formData.append("titulo", titulo);
+      formData.append("tipoDeGuia", tipoDeGuia);
+      formData.append("parrafo", parrafo);
+      for (let i = 0; i < imagenes.length; i++) {
+          formData.append("imagenes", imagenes[i]);
       }
-    </script>
+
+      fetch(`/api/admin/actualizar-guia/${guiaId}`, {
+          method: 'PUT',
+          body: formData
+      }).then(response => {
+          if (response.ok) {
+              alert("¡Guía rápida editada correctamente!");
+              window.location.href = "/api/admin/editar-guias-rapidas";
+          } else {
+              alert("Error al editar la guía rápida.");
+          }
+      });
+  }
+</script>
 </body>
 </html>

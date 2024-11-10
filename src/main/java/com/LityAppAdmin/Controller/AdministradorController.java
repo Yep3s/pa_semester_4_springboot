@@ -8,6 +8,7 @@ import com.LityAppAdmin.Service.GuiaRapidaService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -119,14 +120,25 @@ public class AdministradorController {
     }
 
     // Muestra la página para editar guías rápidas
+// Muestra la página para editar guías rápidas
     @GetMapping("/editar-guias-rapidas")
-    public String mostrarEditarGuiasRapidas(HttpSession session) {
+    public String mostrarEditarGuiasRapidas(HttpSession session,Model model) {
         if (session.getAttribute("adminCorreo") != null) {
+// Obtener la lista de guías de la base de datos
+            List<GuiaRapidaModel> guias = guiaRapidaService.obtenerTodasLasGuias(); // Asegúrate de tener este método en el servicio
+            model.addAttribute("guias", guias); // Pasar las guías al modelo
             return "EditarGuiasRapidas"; // Nombre del archivo HTML
         } else {
             return "redirect:/api/admin/"; // Redirige al login si no está autenticado
         }
     }
+
+    @DeleteMapping("/eliminar-guia/{id}")
+    public String eliminarGuia(@PathVariable("id") Long id) {
+        guiaRapidaService.eliminarGuia(id);
+        return "redirect:/api/admin/editar-guias-rapidas";
+    }
+
 
     // Muestra la página para crear nueva experiencia
     @GetMapping("/crear-experiencia")
