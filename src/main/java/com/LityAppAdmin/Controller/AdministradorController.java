@@ -27,20 +27,9 @@ import java.util.Optional;
 @RequestMapping("/api/admin")
 public class AdministradorController {
 
-    private final GuiaRapidaService guiaRapidaService;
-
-    public AdministradorController(GuiaRapidaService guiaRapidaService) {
-        this.guiaRapidaService = guiaRapidaService;
-    }
-
-
 
     @Autowired
     private IAdministradorRepository administradorRepository;
-
-    @Autowired
-    private IGuiaRapidaRepository guiaRapidaRepository;
-
 
 
     // Muestra el formulario de login
@@ -67,7 +56,6 @@ public class AdministradorController {
         }
     }
 
-    // Método privado para obtener la cédula del administrador desde la sesión
     private String obtenerCorreoAdministrador(HttpSession session) {
         String correo = (String) session.getAttribute("adminCorreo");
         if (correo != null) {
@@ -88,56 +76,7 @@ public class AdministradorController {
     }
 
 
-    // Muestra la página para crear guía rápida
-    @GetMapping("/crear-guia-rapida")
-    public String mostrarCrearGuiaRapida(HttpSession session) {
-        if (session.getAttribute("adminCorreo") != null) {
-            return "CrearGuiaRapida"; // Nombre del archivo HTML
-        } else {
-            return "redirect:/api/admin/index"; // Redirige al login si no está autenticado
-        }
-    }
 
-    @PostMapping("/create-guia")
-    public String crearGuia(@RequestParam("tipoDeGuia") String tipoDeGuia,
-                            @RequestParam("titulo") String titulo,
-                            @RequestParam("parrafo") String parrafo,
-                            @RequestParam("imagen") List<MultipartFile> archivos,
-                            HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-        try {
-            String correo = obtenerCorreoAdministrador(session);
-            guiaRapidaService.guardarGuia(tipoDeGuia, titulo, parrafo, archivos, correo);
-
-            // Agregar un mensaje de éxito para mostrarlo en el frontend
-            redirectAttributes.addFlashAttribute("successMessage", "¡Guía creada exitosamente!");
-
-            // Redirigir a la misma página para mostrar el mensaje
-            return "redirect:/api/admin/crear-guia-rapida";
-        } catch (IOException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error al crear la guía: " + e.getMessage());
-            return "redirect:/api/admin/crear-guia-rapida";
-        }
-    }
-
-    // Muestra la página para editar guías rápidas
-// Muestra la página para editar guías rápidas
-    @GetMapping("/editar-guias-rapidas")
-    public String mostrarEditarGuiasRapidas(HttpSession session,Model model) {
-        if (session.getAttribute("adminCorreo") != null) {
-// Obtener la lista de guías de la base de datos
-            List<GuiaRapidaModel> guias = guiaRapidaService.obtenerTodasLasGuias(); // Asegúrate de tener este método en el servicio
-            model.addAttribute("guias", guias); // Pasar las guías al modelo
-            return "EditarGuiasRapidas"; // Nombre del archivo HTML
-        } else {
-            return "redirect:/api/admin/"; // Redirige al login si no está autenticado
-        }
-    }
-
-    @DeleteMapping("/eliminar-guia/{id}")
-    public String eliminarGuia(@PathVariable("id") Long id) {
-        guiaRapidaService.eliminarGuia(id);
-        return "redirect:/api/admin/editar-guias-rapidas";
-    }
 
 
     // Muestra la página para crear nueva experiencia
