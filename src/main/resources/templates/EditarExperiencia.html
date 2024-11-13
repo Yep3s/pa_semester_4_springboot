@@ -75,7 +75,7 @@
         <img class="mb-4 w-50 d-block mx-auto" src="/Images/LityLogoLogin.png" alt="Logo Lity App">
 
         <h3 class="text-center mb-4">Crear Experiencia</h3>
-          <form action="#" th:action="@{/api/admin/crear-experiencia}" th:object="${experiencia}" method="post">
+          <form action="#" th:action="@{/api/admin/actualizar-experiencia/{id}(id=${experiencia.id})}" th:object="${experiencia}" method="post">
           <!-- Imágenes de la Guía -->
           <div class="mb-3">
               <label for="imagenExperiencia" class="form-label">Imágenen De La Experiencia</label>

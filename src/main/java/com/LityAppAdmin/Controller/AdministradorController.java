@@ -62,69 +62,6 @@ public class AdministradorController {
     }
 
 
-
-
-
-    // Muestra la página para crear nueva experiencia
-    @GetMapping("/crear-experiencia")
-    public String mostrarCrearExperiencia(HttpSession session) {
-        if (session.getAttribute("adminCorreo") != null) {
-            return "CrearExperiencia"; // Nombre del archivo HTML
-        } else {
-            return "redirect:/api/admin/"; // Redirige al login si no está autenticado
-        }
-    }
-
-    // Muestra la página para editar experiencias
-    @GetMapping("/editar-experiencias")
-    public String mostrarEditarExperiencias(HttpSession session) {
-        if (session.getAttribute("adminCorreo") != null) {
-            return "EditarExperiencias"; // Nombre del archivo HTML
-        } else {
-            return "redirect:/api/admin/"; // Redirige al login si no está autenticado
-        }
-    }
-
-    // Muestra la página para crear nueva noticia
-    @GetMapping("/crear-noticia")
-    public String mostrarCrearNoticia(HttpSession session) {
-        if (session.getAttribute("adminCorreo") != null) {
-            return "CrearNoticia"; // Nombre del archivo HTML
-        } else {
-            return "redirect:/api/admin/"; // Redirige al login si no está autenticado
-        }
-    }
-
-    // Muestra la página para editar noticias
-    @GetMapping("/editar-noticias")
-    public String mostrarEditarNoticias(HttpSession session) {
-        if (session.getAttribute("adminCorreo") != null) {
-            return "EditarNoticias"; // Nombre del archivo HTML
-        } else {
-            return "redirect:/api/admin/"; // Redirige al login si no está autenticado
-        }
-    }
-
-    // Muestra la página para crear nuevo tour
-    @GetMapping("/crear-tour")
-    public String mostrarCrearTour(HttpSession session) {
-        if (session.getAttribute("adminCorreo") != null) {
-            return "CrearTour"; // Nombre del archivo HTML
-        } else {
-            return "redirect:/api/admin/"; // Redirige al login si no está autenticado
-        }
-    }
-
-    // Muestra la página para editar tours
-    @GetMapping("/editar-tours")
-    public String mostrarEditarTours(HttpSession session) {
-        if (session.getAttribute("adminCorreo") != null) {
-            return "EditarTours"; // Nombre del archivo HTML
-        } else {
-            return "redirect:/api/admin/"; // Redirige al login si no está autenticado
-        }
-    }
-
     @PostMapping("/logout")
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false); // Obtiene la sesión actual

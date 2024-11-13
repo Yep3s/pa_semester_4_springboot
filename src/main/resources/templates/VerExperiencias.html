@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es-CO">
+<html lang="es-CO" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -39,7 +39,7 @@
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Experiencias</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/api/admin/crear-experiencia">Crear nueva experiencia</a></li>
-            <li><a class="dropdown-item" href="/api/admin/editar-experiencias">Eliminar o editar experiencia</a></li>
+            <li><a class="dropdown-item" href="/api/admin/ver-experiencias">Eliminar o editar experiencia</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">
@@ -82,75 +82,22 @@
           <tr>
             <th>#</th>
             <th>Imagen</th>
-            <th>Descripcion</th>
+            <th>Parrafo</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Imagen 1</td>
-            <td>Esta Es La Descripcion De La Imagen 1</td>
+          <tr th:each="experiencia : ${experiencias}">
+            <th scope="row" th:text="${experiencia.id}">1</th>
+            <td th:text="${experiencia.image}"></td>
+            <td th:text="${experiencia.parrafo}"></td>
             <td>
-              <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal" onclick="fillEditForm('Esta Es La Descripcion De La Imagen 1')">Editar</button>
-              <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">Eliminar</button>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Imagen 2</td>
-            <td>Esta Es La Descripcion De La Imagen 2</td>
-            <td>
-              <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal" onclick="fillEditForm('Esta Es La Descripcion De La Imagen 2')">Editar</button>
-              <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">Eliminar</button>
+              <a th:href="@{/api/admin/editar-experiencia/{id}(id=${experiencia.id})}" class="btn btn-warning btn-sm" role="button">Editar</a>
+              <a th:href="@{/api/admin/eliminar-experiencia/{id}(id=${experiencia.id})}" class="btn btn-danger btn-sm" role="button">Eliminar</a>
             </td>
           </tr>
         </tbody>
       </table>
-    </div>
-
-    <!-- Modal para editar -->
-    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="editModalLabel">Editar Guía Rápida</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form id="editForm">
-              <div class="mb-3">
-                <label for="imagenExperiencia" class="form-label">Imagen Experiencia</label>
-                <input type="file" class="form-control" id="imagenExperiencia" multiple>
-              </div>
-              <div class="mb-3">
-                <label for="descripcionExperiencia" class="form-label">Descripcion De La Experiencia</label>
-                <textarea class="form-control" id="descripcionExperiencia" rows="3" required></textarea>
-              </div>
-              <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal para eliminar -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="deleteModalLabel">Eliminar Guía</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            ¿Estás seguro de que deseas eliminar esta Experiencia?
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-danger">Eliminar</button>
-          </div>
-        </div>
-      </div>
     </div>
 
     <!-- Pie de página -->
@@ -168,10 +115,6 @@
     </div>
 
     <script src="/js/bootstrap.bundle.min.js"></script>
-    <script>
-      function fillEditForm(descripcion) {
-        document.getElementById('descripcionExperiencia').value = descripcion;
-      }
-    </script>
+
 </body>
 </html>
