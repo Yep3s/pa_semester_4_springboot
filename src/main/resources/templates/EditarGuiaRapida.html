@@ -44,14 +44,14 @@
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Noticias</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/api/admin/crear-noticia">Crear Nueva Noticia</a></li>
-            <li><a class="dropdown-item" href="/api/admin/editar-noticias">Eliminar o editar Noticias</a></li>
+            <li><a class="dropdown-item" href="/api/admin/ver-noticias">Eliminar o editar Noticias</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Tour Por La Ciudad</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/api/admin/crear-tour">Crear Nuevo Tour</a></li>
-            <li><a class="dropdown-item" href="/api/admin/editar-tours">Eliminar o editar Tours</a></li>
+            <li><a class="dropdown-item" href="/api/admin/ver-tours">Eliminar o editar Tours</a></li>
           </ul>
         </li>
       </ul>
@@ -71,7 +71,7 @@
   <div class="card p-4 shadow-lg w-100" style="max-width: 600px;">
     <img class="mb-4 w-50 d-block mx-auto" src="/Images/LityLogoLogin.png" alt="Logo Lity App">
 
-    <h3 class="text-center mb-4">Crear Guía Rápida</h3>
+    <h3 class="text-center mb-4">Editar Guía Rápida</h3>
     <form action="#" th:action="@{/api/admin/actualizar-guia-rapida/{id}(id=${guia.id})}" th:object="${guia}" method="post">
       <!-- Tipo de Guía Rápida -->
       <div class="mb-3">
@@ -114,11 +114,11 @@
 <div class="container">
   <footer class="py-3 my-4">
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-      <li class="nav-item"><a th:href="@{/api/admin/index}" class="nav-link px-2 text-body-secondary">Inicio</a></li>
-      <li class="nav-item"><a th:href="@{/api/admin/editar-guias-rapidas}" class="nav-link px-2 text-body-secondary">Guias Rapidas</a></li>
-      <li class="nav-item"><a th:href="@{/api/admin/editar-experiencias}" class="nav-link px-2 text-body-secondary">Experiencias</a></li>
-      <li class="nav-item"><a th:href="@{/api/admin/editar-noticias}" class="nav-link px-2 text-body-secondary">Noticias</a></li>
-      <li class="nav-item"><a th:href="@{/api/admin/editar-tours}" class="nav-link px-2 text-body-secondary">Tour Por La Ciudad</a></li>
+      <li class="nav-item"><a href="/api/admin/index" class="nav-link px-2 text-body-secondary">Inicio</a></li>
+      <li class="nav-item"><a href="/api/admin/ver-guias-rapidas" class="nav-link px-2 text-body-secondary">Guias Rapidas</a></li>
+      <li class="nav-item"><a href="/api/admin/ver-experiencias" class="nav-link px-2 text-body-secondary">Experiencias</a></li>
+      <li class="nav-item"><a href="/api/admin/ver-noticias" class="nav-link px-2 text-body-secondary">Noticias</a></li>
+      <li class="nav-item"><a href="/api/admin/ver-tours" class="nav-link px-2 text-body-secondary">Tour Por La Ciudad</a></li>
     </ul>
     <p class="text-center text-body-secondary">©Lity App, Inc</p>
   </footer>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Crear Noticia | Lity App</title>
+    <title>Editar Noticias | Lity App</title>
     
     <link rel="icon" type="image/x-icon" href="/Images/LityAppFavicon2.png" />
     <link rel="stylesheet" href="/css/bootstrap.css" />
@@ -66,69 +66,54 @@
   </div>
 </nav>
 
-    <!-- Espacio para asegurar que el contenido no quede bajo la navbar -->
-    <div style="margin-top: 100px;"></div>
+    <!-- Contenido principal -->
+    <div class="container mt-5">
+      <div class="text-center">
 
-    <!-- Formulario de Crear Guía Rápida -->
-    <div class="container d-flex justify-content-center align-items-center">
-      <div class="card p-4 shadow-lg w-100" style="max-width: 600px;">
-        <img class="mb-4 w-50 d-block mx-auto" src="/Images/LityLogoLogin.png" alt="Logo Lity App">
+        <img class="mb-4" src="/Images/LityLogoLogin.png" alt="Logo Lity App" >
 
-        <h3 class="text-center mb-4">Crear Noticia</h3>
-        <form action="#" th:action="@{/api/admin/crear-noticia}" th:object="${noticia}" method="post">
-          <!-- Tipo de Noticia -->
-          <div class="mb-3">
-            <label for="tipoDeNoticia" class="form-label">Tipo de Noticia</label>
-            <select class="form-select" id="tipoDeNoticia" th:field="*{tipoDeNoticia}" required>
-              <option value="" selected disabled>Selecciona un tipo de noticia</option>
-              <option value="Tipo De Noticia 1">Tipo De Noticia 1</option>
-              <option value="Tipo De Noticia 2">Tipo De Noticia 2</option>
-              <option value="Tipo De Noticia 3">Tipo De Noticia 3</option>
-              <option value="Tipo De Noticia 4">Tipo De Noticia 4</option>
-            </select>
-          </div>    
-
-          <!-- Título de la Experiencia -->
-          <div class="mb-3">
-            <label for="titulo" class="form-label">Título de la Noticia</label>
-            <input type="text" class="form-control" id="titulo" th:field="*{titulo}" placeholder="Ingresa el título de la Noticia" required>
-          </div>
-
-          
-          <!-- Párrafo de la Guía -->
-          <div class="mb-3">
-            <label for="parrafo" class="form-label">Párrafo de la Noticia</label>
-            <textarea class="form-control" id="parrafo" th:field="*{parrafo}" rows="4" placeholder="Escribe el contenido de la Noticia" required></textarea>
-          </div>
-
-
-
-          <!-- Imágenes de la Noticia -->
-          <div class="mb-3">
-            <label for="image" class="form-label">Imágenen De La Noticia</label>
-            <input type="file" name="file" class="form-control" id="image" th:field="*{image}" multiple accept="image/*">
-          </div>
-
-          <!-- Botón de Guardar -->
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary">Guardar Noticia</button>
-          </div>
-        </form>
+        <h2 class="text-center mb-4">Administrador De Noticias</h2>
       </div>
+
+      
+      <!-- Tabla para listar las Experiencias -->
+      <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th>#</th>
+            <th>Título</th>
+            <th>Tipo de Noticia</th>
+            <th>Parrafo</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr th:each="noticia : ${noticias}">
+          <th scope="row" th:text="${noticia.id}"></th>
+          <td th:text="${noticia.tipoDeNoticia}"></td>
+          <td th:text="${noticia.titulo}"></td>
+          <td th:text="${noticia.parrafo}"></td>
+          <td>
+            <a th:href="@{/api/admin/editar-noticia/{id}(id=${noticia.id})}" class="btn btn-warning btn-sm" role="button">Editar</a>
+            <a th:href="@{/api/admin/eliminar-noticia/{id}(id=${noticia.id})}" class="btn btn-danger btn-sm" role="button">Eliminar</a>
+          </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
+
     <!-- Pie de página -->
-    <div class="container">
-      <footer class="py-3 my-4">
-        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-          <li class="nav-item"><a href="/api/admin/index" class="nav-link px-2 text-body-secondary">Inicio</a></li>
-          <li class="nav-item"><a href="/api/admin/ver-guias-rapidas" class="nav-link px-2 text-body-secondary">Guias Rapidas</a></li>
-          <li class="nav-item"><a href="/api/admin/ver-experiencias" class="nav-link px-2 text-body-secondary">Experiencias</a></li>
-          <li class="nav-item"><a href="/api/admin/ver-noticias" class="nav-link px-2 text-body-secondary">Noticias</a></li>
-          <li class="nav-item"><a href="/api/admin/ver-tours" class="nav-link px-2 text-body-secondary">Tour Por La Ciudad</a></li>
-        </ul>
-        <p class="text-center text-body-secondary">©Lity App, Inc</p>
-      </footer>
+    <div class="container">    <footer class="py-3 my-4">
+      <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+        <li class="nav-item"><a href="/api/admin/index" class="nav-link px-2 text-body-secondary">Inicio</a></li>
+        <li class="nav-item"><a href="/api/admin/ver-guias-rapidas" class="nav-link px-2 text-body-secondary">Guias Rapidas</a></li>
+        <li class="nav-item"><a href="/api/admin/ver-experiencias" class="nav-link px-2 text-body-secondary">Experiencias</a></li>
+        <li class="nav-item"><a href="/api/admin/ver-noticias" class="nav-link px-2 text-body-secondary">Noticias</a></li>
+        <li class="nav-item"><a href="/api/admin/ver-tours" class="nav-link px-2 text-body-secondary">Tour Por La Ciudad</a></li>
+      </ul>
+      <p class="text-center text-body-secondary">©Lity App, Inc</p>
+    </footer>
     </div>
 
     <script src="/js/bootstrap.bundle.min.js"></script>

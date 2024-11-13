@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es-CO">
+<html lang="es-CO" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -46,14 +46,14 @@
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Noticias</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/api/admin/crear-noticia">Crear Nueva Noticia</a></li>
-            <li><a class="dropdown-item" href="/api/admin/editar-noticias">Eliminar o editar Noticias</a></li>
+            <li><a class="dropdown-item" href="/api/admin/ver-noticias">Eliminar o editar Noticias</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Tour Por La Ciudad</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/api/admin/crear-tour">Crear Nuevo Tour</a></li>
-            <li><a class="dropdown-item" href="/api/admin/editar-tours">Eliminar o editar Tours</a></li>
+            <li><a class="dropdown-item" href="/api/admin/ver-tours">Eliminar o editar Tours</a></li>
           </ul>
         </li>
       </ul>
@@ -75,47 +75,47 @@
         <img class="mb-4 w-50 d-block mx-auto" src="/Images/LityLogoLogin.png" alt="Logo Lity App">
 
         <h3 class="text-center mb-4">Crear Tour</h3>
-        <form>
+        <form action="#" th:action="@{/api/admin/crear-tour}" th:object="${tour}" method="post">
           <!-- Título del Tour -->
           <div class="mb-3">
             <label for="nombreTour" class="form-label">Nombre Del Tour</label>
-            <input type="text" class="form-control" id="nombreTour" placeholder="Ingresa el Nombre del Tour" required>
+            <input type="text" class="form-control" id="nombreTour" th:field="*{nombreTour}" placeholder="Ingresa el Nombre Del Tour" required>
           </div>
 
           <!-- Párrafo de la Guía -->
           <div class="mb-3">
             <label for="descripcionTour" class="form-label">Descripcion Del Tour</label>
-            <textarea class="form-control" id="descripcionTour" rows="4" placeholder="Escribe la Descripcion Del Tour" required></textarea>
+            <textarea class="form-control" id="descripcionTour" rows="4" th:field="*{descripcionTour}" placeholder="Escribe la Descripcion Del Tour" required></textarea>
           </div>
 
           <!-- Imágenes del Tour -->
           <div class="mb-3">
-            <label for="imagenesTour" class="form-label">Imágenes Del Tour</label>
-            <input type="file" class="form-control" id="imagenesTour" multiple>
+            <label for="imagenTour" class="form-label">Imágenes Del Tour</label>
+            <input type="file" name="file" class="form-control" id="imagenTour" th:field="*{image}" multiple accept="image/*">
           </div>
 
           <!-- Precio Del Tour -->
             <div class="mb-3">
             <label for="precioTour" class="form-label">Precio Del Tour $</label>
-            <input type="text" class="form-control" id="precioTour" placeholder="Ingresa El Valor Del Tour" required>
+            <input type="text" class="form-control" id="precioTour" th:field="*{precio}" placeholder="Ingresa El Valor Del Tour" required>
             </div>
 
           <!-- Tipo de Guía Rápida -->
           <div class="mb-3">
             <label for="agenciaTour" class="form-label">Agencia Del Tour</label>
-            <select class="form-select" id="agenciaTour" required>
-              <option selected disabled>Selecciona La Agencia Que Gestiona El Tour</option>
-              <option>CaribeTour</option>
-              <option>SalyTour</option>
-              <option>EncantoTour</option>
-              <option>HostiaTour</option>
+            <select class="form-select" id="agenciaTour" th:field="*{agencia}" required>
+              <option value="" selected disabled>Selecciona La Agencia Que Gestiona El Tour</option>
+              <option value="CaribeTour">Guía Rápida de Atracciones</option>
+              <option value="SalyTour">SalyTour</option>
+              <option value="EncantoTours">EncantoTour</option>
+              <option value="HostiaTour">HostiaTour</option>
             </select>
           </div>
 
           <!-- Contacto Del Tour -->
             <div class="mb-3">
             <label for="contactoTour" class="form-label">Contacto Del Tour</label>
-            <input type="text" class="form-control" id="contactoTour" placeholder="Ingresa El Numero De Contacto Para El Tour" required>
+            <input type="text" class="form-control" id="contactoTour"  th:field="*{contacto}" placeholder="Ingresa El Numero De Contacto Para El Tour" required>
             </div>
             
           <!-- Botón de Guardar -->

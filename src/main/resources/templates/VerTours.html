@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="es-CO" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Crear Guía Rápida | Lity App</title>
-  <link rel="icon" type="image/x-icon" href="/Images/LityAppFavicon2.png" />
-  <link rel="stylesheet" href="/css/bootstrap.css" />
-  <link rel="stylesheet" href="/css/styles.css" />
-  <link rel="stylesheet" href="/css/nav-styles.css">
-  <link rel="stylesheet" href="/css/navbar-fixed.css">
-  <link rel="stylesheet" href="/css/hero-style.css">
-  <link rel="stylesheet" href="/css/animated-background.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Editar Guia Rapida | Lity App</title>
+    
+    <link rel="icon" type="image/x-icon" href="/Images/LityAppFavicon2.png" />
+    <link rel="stylesheet" href="/css/bootstrap.css" />
+    <link rel="stylesheet" href="/css/styles.css" /> 
+    <link rel="stylesheet" href="/css/nav-styles.css">
+    <link rel="stylesheet" href="/css/navbar-fixed.css">
+    <link rel="stylesheet" href="/css/hero-style.css">
+    <link rel="stylesheet" href="/css/animated-bg-tours.css">
+
 </head>
-<body class="animated-bg-pinky">
+<body class="animated-bg-tours">
 
 <!-- Barra de Navegación -->
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -64,53 +66,49 @@
   </div>
 </nav>
 
-<div style="margin-top: 100px;"></div>
-
-<!-- Formulario de Crear Guía Rápida -->
-<div class="container d-flex justify-content-center align-items-center">
-  <div class="card p-4 shadow-lg w-100" style="max-width: 600px;">
-    <img class="mb-4 w-50 d-block mx-auto" src="/Images/LityLogoLogin.png" alt="Logo Lity App">
-
-    <h3 class="text-center mb-4">Crear Guía Rápida</h3>
-    <form action="#" th:action="@{/api/admin/crear-guia-rapida}" th:object="${guia}" method="post">
-      <!-- Tipo de Guía Rápida -->
-      <div class="mb-3">
-        <label for="tipoDeGuia" class="form-label">Tipo de Guía Rápida</label>
-        <select class="form-select" id="tipoDeGuia" th:field="*{tipoDeGuia}" required>
-          <option value="" selected disabled>Selecciona un tipo de guía</option>
-          <option value="Atracciones">Guía Rápida de Atracciones</option>
-          <option value="Comida Típica">Guía Rápida de Comida Típica</option>
-          <option value="Transporte">Guía Rápida de Transporte</option>
-          <option value="Seguridad">Tips De Seguridad</option>
-        </select>
-      </div>
-
-      <!-- Título de la Guía -->
-      <div class="mb-3">
-        <label for="titulo" class="form-label">Título de la Guía</label>
-        <input type="text" class="form-control" id="titulo" th:field="*{titulo}" placeholder="Ingresa el título de la guía" required>
-      </div>
-
-      <!-- Párrafo de la Guía -->
-      <div class="mb-3">
-        <label for="parrafo" class="form-label">Párrafo de la Guía</label>
-        <textarea class="form-control" id="parrafo" th:field="*{parrafo}" rows="4" placeholder="Escribe el contenido de la guía" required></textarea>
-      </div>
-
-      <!-- Imágen de la Guía -->
-      <div class="mb-3">
-        <label for="imagen" class="form-label">Imágenes de la Guía</label>
-        <input type="file" name="file" class="form-control" id="imagen" th:field="*{image}" multiple accept="image/*">
-      </div>
-
-      <!-- Botón de Guardar -->
+    <!-- Contenido principal -->
+    <div class="container mt-5">
       <div class="text-center">
-        <button type="submit" class="btn btn-primary">Guardar Guía</button>
-      </div>
-    </form>
-  </div>
-</div>
 
+        <img class="mb-4" src="/Images/LityLogoLogin.png" alt="Logo Lity App" >
+
+        <h2 class="text-center mb-4">Administrador De Tours</h2>
+      </div>
+
+      
+      <!-- Tabla para listar las guías rápidas -->
+      <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th>#</th>
+            <th>Nombre Del Tour</th>
+            <th>Descripcion Del Tour</th>
+            <th>Imagenes Del Tour</th>
+            <th>Precio Del Tour</th>
+            <th>Agencia Del Tour</th>
+            <th>Contacto Del Tour</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="tour : ${tours}">
+            <th scope="row" th:text="${tour.id}"></th>
+            <td th:text="${tour.nombreTour}"></td>
+            <td th:text="${tour.descripcionTour}"></td>
+            <td th:text="${tour.image}"></td>
+            <td th:text="${tour.precio}"></td>
+            <td th:text="${tour.agencia}"></td>
+            <td th:text="${tour.contacto}"></td>
+            <td>
+              <a th:href="@{/api/admin/editar-tour/{id}(id=${tour.id})}" class="btn btn-warning btn-sm" role="button">Editar</a>
+              <a th:href="@{/api/admin/eliminar-tour/{id}(id=${tour.id})}" class="btn btn-danger btn-sm" role="button">Eliminar</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pie de página -->
 <div class="container">
   <footer class="py-3 my-4">
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
@@ -124,7 +122,6 @@
   </footer>
 </div>
 
-<script src="/js/bootstrap.bundle.min.js"></script>
-
+    <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

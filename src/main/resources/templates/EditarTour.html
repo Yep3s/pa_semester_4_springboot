@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Crear Noticia | Lity App</title>
+    <title>Crear Guía Rápida | Lity App</title>
     
     <link rel="icon" type="image/x-icon" href="/Images/LityAppFavicon2.png" />
     <link rel="stylesheet" href="/css/bootstrap.css" />
@@ -11,10 +11,10 @@
     <link rel="stylesheet" href="/css/nav-styles.css">
     <link rel="stylesheet" href="/css/navbar-fixed.css">
     <link rel="stylesheet" href="/css/hero-style.css">
-    <link rel="stylesheet" href="/css/animated-bg-noticias.css">
+    <link rel="stylesheet" href="/css/animated-bg-tours.css">
 
 </head>
-<body class="animated-bg-noticias">
+<body class="animated-bg-tours">
 
 <!-- Barra de Navegación -->
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -74,62 +74,71 @@
       <div class="card p-4 shadow-lg w-100" style="max-width: 600px;">
         <img class="mb-4 w-50 d-block mx-auto" src="/Images/LityLogoLogin.png" alt="Logo Lity App">
 
-        <h3 class="text-center mb-4">Crear Noticia</h3>
-        <form action="#" th:action="@{/api/admin/crear-noticia}" th:object="${noticia}" method="post">
-          <!-- Tipo de Noticia -->
+        <h3 class="text-center mb-4">Editar Tour</h3>
+        <form action="#" th:action="@{/api/admin/actualizar-tour/{id}(id=${tour.id})}" th:object="${tour}" method="post">
+          <!-- Título del Tour -->
           <div class="mb-3">
-            <label for="tipoDeNoticia" class="form-label">Tipo de Noticia</label>
-            <select class="form-select" id="tipoDeNoticia" th:field="*{tipoDeNoticia}" required>
-              <option value="" selected disabled>Selecciona un tipo de noticia</option>
-              <option value="Tipo De Noticia 1">Tipo De Noticia 1</option>
-              <option value="Tipo De Noticia 2">Tipo De Noticia 2</option>
-              <option value="Tipo De Noticia 3">Tipo De Noticia 3</option>
-              <option value="Tipo De Noticia 4">Tipo De Noticia 4</option>
-            </select>
-          </div>    
-
-          <!-- Título de la Experiencia -->
-          <div class="mb-3">
-            <label for="titulo" class="form-label">Título de la Noticia</label>
-            <input type="text" class="form-control" id="titulo" th:field="*{titulo}" placeholder="Ingresa el título de la Noticia" required>
+            <label for="nombreTour" class="form-label">Nombre Del Tour</label>
+            <input type="text" class="form-control" id="nombreTour" th:field="*{nombreTour}" placeholder="Ingresa el Nombre Del Tour" required>
           </div>
 
-          
           <!-- Párrafo de la Guía -->
           <div class="mb-3">
-            <label for="parrafo" class="form-label">Párrafo de la Noticia</label>
-            <textarea class="form-control" id="parrafo" th:field="*{parrafo}" rows="4" placeholder="Escribe el contenido de la Noticia" required></textarea>
+            <label for="descripcionTour" class="form-label">Descripcion Del Tour</label>
+            <textarea class="form-control" id="descripcionTour" rows="4" th:field="*{descripcionTour}" placeholder="Escribe la Descripcion Del Tour" required></textarea>
           </div>
 
-
-
-          <!-- Imágenes de la Noticia -->
+          <!-- Imágenes del Tour -->
           <div class="mb-3">
-            <label for="image" class="form-label">Imágenen De La Noticia</label>
-            <input type="file" name="file" class="form-control" id="image" th:field="*{image}" multiple accept="image/*">
+            <label for="imagenTour" class="form-label">Imágenes Del Tour</label>
+            <input type="file" name="file" class="form-control" id="imagenTour" th:field="*{image}" multiple accept="image/*">
           </div>
 
+          <!-- Precio Del Tour -->
+            <div class="mb-3">
+            <label for="precioTour" class="form-label">Precio Del Tour $</label>
+            <input type="text" class="form-control" id="precioTour" th:field="*{precio}" placeholder="Ingresa El Valor Del Tour" required>
+            </div>
+
+          <!-- Tipo de Guía Rápida -->
+          <div class="mb-3">
+            <label for="agenciaTour" class="form-label">Agencia Del Tour</label>
+            <select class="form-select" id="agenciaTour" th:field="*{agencia}" required>
+              <option value="" selected disabled>Selecciona La Agencia Que Gestiona El Tour</option>
+              <option value="CaribeTour">Guía Rápida de Atracciones</option>
+              <option value="SalyTour">SalyTour</option>
+              <option value="EncantoTours">EncantoTour</option>
+              <option value="HostiaTour">HostiaTour</option>
+            </select>
+          </div>
+
+          <!-- Contacto Del Tour -->
+            <div class="mb-3">
+            <label for="contactoTour" class="form-label">Contacto Del Tour</label>
+            <input type="text" class="form-control" id="contactoTour"  th:field="*{contacto}" placeholder="Ingresa El Numero De Contacto Para El Tour" required>
+            </div>
+            
           <!-- Botón de Guardar -->
           <div class="text-center">
-            <button type="submit" class="btn btn-primary">Guardar Noticia</button>
+            <button type="submit" class="btn btn-primary">Crear Tour</button>
           </div>
         </form>
       </div>
     </div>
 
     <!-- Pie de página -->
-    <div class="container">
-      <footer class="py-3 my-4">
-        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-          <li class="nav-item"><a href="/api/admin/index" class="nav-link px-2 text-body-secondary">Inicio</a></li>
-          <li class="nav-item"><a href="/api/admin/ver-guias-rapidas" class="nav-link px-2 text-body-secondary">Guias Rapidas</a></li>
-          <li class="nav-item"><a href="/api/admin/ver-experiencias" class="nav-link px-2 text-body-secondary">Experiencias</a></li>
-          <li class="nav-item"><a href="/api/admin/ver-noticias" class="nav-link px-2 text-body-secondary">Noticias</a></li>
-          <li class="nav-item"><a href="/api/admin/ver-tours" class="nav-link px-2 text-body-secondary">Tour Por La Ciudad</a></li>
-        </ul>
-        <p class="text-center text-body-secondary">©Lity App, Inc</p>
-      </footer>
-    </div>
+<div class="container">
+  <footer class="py-3 my-4">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="/api/admin/index" class="nav-link px-2 text-body-secondary">Inicio</a></li>
+      <li class="nav-item"><a href="/api/admin/ver-guias-rapidas" class="nav-link px-2 text-body-secondary">Guias Rapidas</a></li>
+      <li class="nav-item"><a href="/api/admin/ver-experiencias" class="nav-link px-2 text-body-secondary">Experiencias</a></li>
+      <li class="nav-item"><a href="/api/admin/ver-noticias" class="nav-link px-2 text-body-secondary">Noticias</a></li>
+      <li class="nav-item"><a href="/api/admin/ver-tours" class="nav-link px-2 text-body-secondary">Tour Por La Ciudad</a></li>
+    </ul>
+    <p class="text-center text-body-secondary">©Lity App, Inc</p>
+  </footer>
+</div>
 
     <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
