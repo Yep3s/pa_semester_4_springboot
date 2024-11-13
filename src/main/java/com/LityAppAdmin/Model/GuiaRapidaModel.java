@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@Table(name = "guias_rapidas")
+@Table(name = "guias_rapidas1")
 public class GuiaRapidaModel {
 
     @Id
@@ -17,6 +17,8 @@ public class GuiaRapidaModel {
     private String tipoDeGuia;
     private String titulo;
     private String parrafo;
+    private String image;
+
 
     // Campo para almacenar solo el correo del administrador
     private String correoAdministrador;
@@ -25,7 +27,6 @@ public class GuiaRapidaModel {
     @Column(updatable = false)
     private LocalDateTime fechaDeCreacion;
 
-    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -58,6 +59,14 @@ public class GuiaRapidaModel {
         this.parrafo = parrafo;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public String getCorreoAdministrador() {
         return correoAdministrador;
     }
@@ -70,6 +79,18 @@ public class GuiaRapidaModel {
         return fechaDeCreacion;
     }
 
+    @Override
+    public String toString() {
+        return "GuiaRapidaModel{" +
+                "id=" + id +
+                ", tipoDeGuia='" + tipoDeGuia + '\'' +
+                ", titulo='" + titulo + '\'' +
+                ", parrafo='" + parrafo + '\'' +
+                ", image='" + image + '\'' +
+                ", correoAdministrador='" + correoAdministrador + '\'' +
+                ", fechaDeCreacion=" + fechaDeCreacion +
+                '}';
+    }
 }
 
 

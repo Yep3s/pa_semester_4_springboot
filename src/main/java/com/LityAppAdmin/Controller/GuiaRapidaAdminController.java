@@ -2,30 +2,22 @@ package com.LityAppAdmin.Controller;
 
 import com.LityAppAdmin.Model.GuiaRapidaModel;
 import com.LityAppAdmin.Repository.IGuiaRapidaRepository;
-import com.LityAppAdmin.Service.GuiaRapidaService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.IOException;
-import java.util.List;
+
 
 @Controller
 @RequestMapping("/api/admin")
 public class GuiaRapidaAdminController {
 
-    private final GuiaRapidaService guiaRapidaService;
-
-    public GuiaRapidaAdminController(GuiaRapidaService guiaRapidaService) {
-        this.guiaRapidaService = guiaRapidaService;
-    }
-
     @Autowired
     private IGuiaRapidaRepository guiaRapidaRepository;
+
 
     private String obtenerCorreoAdministrador(HttpSession session) {
         String correo = (String) session.getAttribute("adminCorreo");
@@ -36,56 +28,92 @@ public class GuiaRapidaAdminController {
         }
     }
 
-    // Muestra la página para crear guía rápida
     @GetMapping("/crear-guia-rapida")
-    public String mostrarCrearGuiaRapida(HttpSession session) {
+    public String mostrarCrearGuiaRapida(HttpSession session,Model model) {
         if (session.getAttribute("adminCorreo") != null) {
-            return "CrearGuiaRapida"; // Nombre del archivo HTML
-        } else {
-            return "redirect:/api/admin/index"; // Redirige al login si no está autenticado
-        }
-    }
-
-    @PostMapping("/create-guia")
-    public String crearGuia(@RequestParam("tipoDeGuia") String tipoDeGuia,
-                            @RequestParam("titulo") String titulo,
-                            @RequestParam("parrafo") String parrafo,
-                            @RequestParam("imagen") List<MultipartFile> archivos,
-                            HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-        try {
-            String correo = obtenerCorreoAdministrador(session);
-            guiaRapidaService.guardarGuia(tipoDeGuia, titulo, parrafo, archivos, correo);
-
-            // Agregar un mensaje de éxito para mostrarlo en el frontend
-            redirectAttributes.addFlashAttribute("successMessage", "¡Guía creada exitosamente!");
-
-            // Redirigir a la misma página para mostrar el mensaje
-            return "redirect:/api/admin/crear-guia-rapida";
-        } catch (IOException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error al crear la guía: " + e.getMessage());
-            return "redirect:/api/admin/crear-guia-rapida";
-        }
-    }
-
-    // Muestra la página para editar guías rápidas
-// Muestra la página para editar guías rápidas
-    @GetMapping("/editar-guias-rapidas")
-    public String mostrarEditarGuiasRapidas(HttpSession session,Model model) {
-        if (session.getAttribute("adminCorreo") != null) {
-// Obtener la lista de guías de la base de datos
-            List<GuiaRapidaModel> guias = guiaRapidaService.obtenerTodasLasGuias(); // Asegúrate de tener este método en el servicio
-            model.addAttribute("guias", guias); // Pasar las guías al modelo
-            return "EditarGuiasRapidas"; // Nombre del archivo HTML
+            model.addAttribute("guia", new GuiaRapidaModel());
+            return "CrearGuiaRapida"; // Nombre del archivo HTML sin la extensión
         } else {
             return "redirect:/api/admin/"; // Redirige al login si no está autenticado
         }
     }
 
-    @DeleteMapping("/eliminar-guia/{id}")
-    public String eliminarGuia(@PathVariable("id") Long id) {
-        guiaRapidaService.eliminarGuia(id);
-        return "redirect:/api/admin/editar-guias-rapidas";
+
+    @PostMapping("/crear-guia-rapida")
+    public String crearGuiaRapida(HttpSession session,GuiaRapidaModel guia, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "CrearGuiaRapida";
+        }
+
+        String correoAdministrador;
+        try {
+            correoAdministrador = obtenerCorreoAdministrador(session);
+        } catch (IllegalStateException e) {
+            model.addAttribute("error", "No hay un administrador en sesión.");
+            return "/api/admin/IndexAdmin";
+        }
+        guia.setCorreoAdministrador(correoAdministrador);
+        guiaRapidaRepository.save(guia);
+        return "redirect:/api/admin/ver-guias-rapidas";
+
     }
+
+    @GetMapping("/ver-guias-rapidas")
+    public String showGuiasRapidas(Model model) {
+        model.addAttribute("guiasRapidas", guiaRapidaRepository.findAll());
+        return "VerGuiasRapidas";
+    }
+
+    @GetMapping("/editar-guia-rapida/{id}")
+    public String mostrarFormularioEdicionGuia(@PathVariable("id") long id, Model model) {
+        GuiaRapidaModel guia = guiaRapidaRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        model.addAttribute("guia", guia);
+        return "EditarGuiaRapida";
+    }
+
+    @PostMapping("/actualizar-guia-rapida/{id}")
+    public String updateUser(@PathVariable("id") long id, GuiaRapidaModel guia,
+                             BindingResult result, Model model,HttpSession session) {
+        if (result.hasErrors()) {
+            guia.setId(id);
+            return "EditarGuiaRapida";
+        }
+
+        String correoAdministrador;
+        try {
+            correoAdministrador = obtenerCorreoAdministrador(session);
+        } catch (IllegalStateException e) {
+            model.addAttribute("error", "No hay un administrador en sesión.");
+            return "/api/admin/IndexAdmin";
+        }
+        guia.setCorreoAdministrador(correoAdministrador);
+
+        if (guia.getImage() == null || guia.getImage().isEmpty()) {
+            GuiaRapidaModel imagenExistente = guiaRapidaRepository.findById(id).orElse(null);
+            if (imagenExistente != null) {
+                guia.setImage(imagenExistente.getImage()); // Mantener la ruta de la imagen anterior
+            }
+        }
+
+        guiaRapidaRepository.save(guia);
+        return "redirect:/api/admin/ver-guias-rapidas";
+    }
+
+
+    @GetMapping("/eliminar-guia-rapida/{id}")
+    public String deleteGuia(@PathVariable("id") long id, Model model) {
+        GuiaRapidaModel guia = guiaRapidaRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        guiaRapidaRepository.delete(guia);
+        return "redirect:/api/admin/ver-guias-rapidas";
+    }
+
+
+
+
+
+
 
 
 }

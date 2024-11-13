@@ -1,26 +1,12 @@
 package com.LityAppAdmin.Controller;
 
 import com.LityAppAdmin.Model.AdministradorModel;
-import com.LityAppAdmin.Model.GuiaRapidaModel;
 import com.LityAppAdmin.Repository.IAdministradorRepository;
-import com.LityAppAdmin.Repository.IGuiaRapidaRepository;
-import com.LityAppAdmin.Service.GuiaRapidaService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
 import java.util.Optional;
 
 @Controller

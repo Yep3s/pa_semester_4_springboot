@@ -32,7 +32,7 @@
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Guias Rapidas</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/api/admin/crear-guia-rapida">Crear guía rápida</a></li>
-            <li><a class="dropdown-item" href="/api/admin/editar-guias-rapidas">Eliminar o editar Guías Rápidas</a></li>
+            <li><a class="dropdown-item" href="/api/admin/ver-guias-rapidas">Eliminar o editar Guías Rápidas</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">
@@ -96,7 +96,7 @@
       <td th:text="${guia.image}"></td>
       <td>
         <a th:href="@{/api/admin/editar-guia-rapida/{id}(id=${guia.id})}" class="btn btn-warning btn-sm" role="button">Editar</a>
-        <a th:href="@{'/api/admin/delete-guia-rapida/' + ${guia.id}}" class="btn btn-danger btn-sm" role="button">Eliminar</a>
+        <a th:href="@{/api/admin/eliminar-guia-rapida/{id}(id=${guia.id})}" class="btn btn-danger btn-sm" role="button">Eliminar</a>
       </td>
     </tr>
     </tbody>
@@ -118,5 +118,7 @@
 </div>
 
 <script src="/js/bootstrap.bundle.min.js"></script>
+
+
 </body>
 </html>

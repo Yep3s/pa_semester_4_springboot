@@ -30,7 +30,7 @@
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Guias Rapidas</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/api/admin/crear-guia-rapida">Crear guía rápida</a></li>
-            <li><a class="dropdown-item" href="/api/admin/editar-guias-rapidas">Eliminar o editar Guías Rápidas</a></li>
+            <li><a class="dropdown-item" href="/api/admin/ver-guias-rapidas">Eliminar o editar Guías Rápidas</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">
@@ -72,7 +72,7 @@
     <img class="mb-4 w-50 d-block mx-auto" src="/Images/LityLogoLogin.png" alt="Logo Lity App">
 
     <h3 class="text-center mb-4">Crear Guía Rápida</h3>
-    <form action="#" th:action="@{/api/admin/crear-guia-rapida}" th:object="${guia}" method="post">
+    <form action="#" th:action="@{/api/admin/actualizar-guia-rapida/{id}(id=${guia.id})}" th:object="${guia}" method="post">
       <!-- Tipo de Guía Rápida -->
       <div class="mb-3">
         <label for="tipoDeGuia" class="form-label">Tipo de Guía Rápida</label>
