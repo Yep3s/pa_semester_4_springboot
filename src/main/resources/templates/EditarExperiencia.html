@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Crear Experiencia | Lity App</title>
-    
+
     <link rel="icon" type="image/x-icon" href="/Images/LityAppFavicon2.png" />
     <link rel="stylesheet" href="/css/bootstrap.css" />
-    <link rel="stylesheet" href="/css/styles.css" /> 
+    <link rel="stylesheet" href="/css/styles.css" />
     <link rel="stylesheet" href="/css/nav-styles.css">
     <link rel="stylesheet" href="/css/navbar-fixed.css">
     <link rel="stylesheet" href="/css/hero-style.css">
@@ -66,39 +66,39 @@
     </div>
 </nav>
 
-    <!-- Espacio para asegurar que el contenido no quede bajo la navbar -->
-    <div style="margin-top: 100px;"></div>
+<!-- Espacio para asegurar que el contenido no quede bajo la navbar -->
+<div style="margin-top: 100px;"></div>
 
-    <!-- Formulario de Crear Guía Rápida -->
-    <div class="container d-flex justify-content-center align-items-center">
-      <div class="card p-4 shadow-lg w-100" style="max-width: 600px;">
+<!-- Formulario de Crear Guía Rápida -->
+<div class="container d-flex justify-content-center align-items-center">
+    <div class="card p-4 shadow-lg w-100" style="max-width: 600px;">
         <img class="mb-4 w-50 d-block mx-auto" src="/Images/LityLogoLogin.png" alt="Logo Lity App">
 
         <h3 class="text-center mb-4">Editar Experiencia</h3>
-          <form action="#" th:action="@{/api/admin/actualizar-experiencia/{id}(id=${experiencia.id})}" th:object="${experiencia}" method="post">
-          <!-- Imágenes de la Guía -->
-          <div class="mb-3">
-              <label for="imagenExperiencia" class="form-label">Imágenen De La Experiencia</label>
-              <input type="file" name="file" class="form-control" id="imagenExperiencia" th:field="*{image}" multiple accept="image/*">
-          </div>
+        <form action="#" th:action="@{/api/admin/actualizar-experiencia/{id}(id=${experiencia.id})}" th:object="${experiencia}" method="post">
+            <!-- Imágenes de la Guía -->
+            <div class="mb-3">
+                <label for="imagenExperiencia" class="form-label">Imágenen De La Experiencia</label>
+                <input type="file" name="file" class="form-control" id="imagenExperiencia" th:field="*{image}" multiple accept="image/*">
+            </div>
 
 
-          <!-- Párrafo de la Guía -->
-          <div class="mb-3">
-            <label for="parrafoExperiencia" class="form-label">Párrafo de la Experiencia</label>
-              <textarea class="form-control" id="parrafoExperiencia" th:field="*{parrafo}" rows="4" placeholder="Escribe el contenido de la Experiencia" required></textarea>
+            <!-- Párrafo de la Guía -->
+            <div class="mb-3">
+                <label for="parrafoExperiencia" class="form-label">Párrafo de la Experiencia</label>
+                <textarea class="form-control" id="parrafoExperiencia" th:field="*{parrafo}" rows="4" placeholder="Escribe el contenido de la Experiencia" required></textarea>
 
-          </div>
+            </div>
 
-          <!-- Botón de Guardar -->
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary">Guardar Experiencia</button>
-          </div>
+            <!-- Botón de Guardar -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Guardar Experiencia</button>
+            </div>
         </form>
-      </div>
     </div>
+</div>
 
-    <!-- Pie de página -->
+<!-- Pie de página -->
 <div class="container">
     <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
@@ -112,6 +112,6 @@
     </footer>
 </div>
 
-    <script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

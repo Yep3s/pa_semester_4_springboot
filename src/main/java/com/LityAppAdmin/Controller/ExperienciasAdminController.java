@@ -3,15 +3,21 @@ package com.LityAppAdmin.Controller;
 import com.LityAppAdmin.Model.ExperienciaModel;
 import com.LityAppAdmin.Model.GuiaRapidaModel;
 import com.LityAppAdmin.Repository.IExperienciaRepository;
+import com.LityAppAdmin.Service.ExperienciaService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Optional;
+import java.util.UUID;
 
 
 @Controller
@@ -20,6 +26,7 @@ public class ExperienciasAdminController {
 
     @Autowired
     private IExperienciaRepository experienciasRepository;
+
 
     private String obtenerCorreoAdministrador(HttpSession session) {
         String correo = (String) session.getAttribute("adminCorreo");
@@ -41,22 +48,44 @@ public class ExperienciasAdminController {
     }
 
     @PostMapping("/crear-experiencia")
-    public String crearExperiencia(HttpSession session, ExperienciaModel experiencia, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            return "CrearExperiencia";
+    public String crearExperiencia(
+            @RequestParam("file") MultipartFile file,
+            @ModelAttribute ExperienciaModel experiencia,
+            HttpSession session) {
+
+        // Obtener correo del administrador desde la sesión
+        String correoAdmin = obtenerCorreoAdministrador(session);
+        experiencia.setCorreoAdministrador(correoAdmin);
+
+        // Validar si el archivo tiene una extensión permitida
+        if (!file.isEmpty()) {
+            String originalFileName = file.getOriginalFilename();
+            if (originalFileName != null &&
+                    (originalFileName.endsWith(".png") || originalFileName.endsWith(".jpeg") || originalFileName.endsWith(".jpg"))) {
+
+                // Generar un UUID corto (4 caracteres)
+                String shortUUID = UUID.randomUUID().toString().substring(0, 4);
+
+                // Crear el nombre único del archivo
+                String uniqueFileName = shortUUID + "_" + originalFileName;
+                Path filePath = Paths.get("uploads", uniqueFileName);
+
+                try {
+                    Files.createDirectories(filePath.getParent());
+                    file.transferTo(filePath);
+                    experiencia.setImage("/uploads/" + uniqueFileName);
+                } catch (IOException e) {
+                    throw new RuntimeException("Error al guardar la imagen", e);
+                }
+            } else {
+                throw new IllegalArgumentException("Tipo de archivo no permitido. Solo se aceptan .png, .jpeg y .jpg");
+            }
         }
 
-        String correoAdministrador;
-        try {
-            correoAdministrador = obtenerCorreoAdministrador(session);
-        } catch (IllegalStateException e) {
-            model.addAttribute("error", "No hay un administrador en sesión.");
-            return "/api/admin/IndexAdmin";
-        }
-        experiencia.setCorreoAdministrador(correoAdministrador);
+        // Guardar experiencia en la base de datos
         experienciasRepository.save(experiencia);
-        return "redirect:/api/admin/ver-experiencias";
 
+        return "redirect:/api/admin/ver-experiencias";
     }
 
     @GetMapping("/ver-experiencias")

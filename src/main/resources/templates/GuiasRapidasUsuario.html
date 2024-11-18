@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="es-CO" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <script src="../assets/js/color-modes.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Guias Rapidas | Lity App</title>
+    <link rel="icon" type="image/x-icon" href="/Images/LityAppFavicon2.png">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/guias-rapidas.css" rel="stylesheet">
+
+    <link href="/css/carousel.css" rel="stylesheet">
+</head>
+
+<body>
+
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-md bg-dark sticky-top" data-bs-theme="dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="/images/LityAppLogo2.png" alt="Lity App" width="70" height="50">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+                aria-controls="offcanvasNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Lity App</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item"><a class="nav-link" href="/">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/guias_rapidas">Guías Rápidas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/experiencia">Experiencias</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/noticias">Noticias</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/tour">Tour por la ciudad</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<main>
+
+    <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">¡Guías Rápidas y Consejos para su Estancia en Cartagena de Indias!</h1>
+            </div>
+        </div>
+    </section>
+
+
+
+    <div class="container marketing">
+        <div class="row mt-1">
+            <div class="col-lg-3 d-flex flex-column align-items-center text-center mb-4">
+                <img src="/Images/cultura_tradiciones.jpg" alt="Cultura y Tradiciones"
+                     class="bd-placeholder-img rounded-circle" width="140" height="140" />
+                <h2 class="fw-normal mt-3">Guía de atracciones</h2>
+                <p>Cultura rica y tradiciones en esta ciudad histórica.</p>
+                <p><a class="btn btn-primary my-2" href="/guias?tipoDeGuia=atracciones">Ver más &raquo;</a></p>
+            </div>
+            <div class="col-lg-3 d-flex flex-column align-items-center text-center mb-4">
+                <img src="/Images/gastronomia_.jpeg" alt="Gastronomía Local" class="bd-placeholder-img rounded-circle"
+                     width="140" height="140" />
+                <h2 class="fw-normal mt-3">Guía de cocina típica</h2>
+                <p>Delicias locales: sabores únicos de la región.</p>
+                <p><a class="btn btn-primary my-2" href="/guias?tipoDeGuia=cocina">Ver más &raquo;</a></p>
+            </div>
+            <div class="col-lg-3 d-flex flex-column align-items-center text-center mb-4">
+                <img src="/Images/trends_turisticos.jpg" alt="Trends Turísticos" class="bd-placeholder-img rounded-circle"
+                     width="140" height="140" />
+                <h2 class="fw-normal mt-3">Guía de transporte</h2>
+                <p>Destino en auge con las últimas tendencias turísticas.</p>
+                <p><a class="btn btn-primary my-2" href="/guias?tipoDeGuia=transportes">Ver más &raquo;</a></p>
+            </div>
+            <div class="col-lg-3 d-flex flex-column align-items-center text-center mb-4">
+                <img src="/Images/Festivales.jpeg" alt="Eventos y Festivales" class="bd-placeholder-img rounded-circle"
+                     width="140" height="140" />
+                <h2 class="fw-normal mt-3">Tips de seguridad</h2>
+                <p>Eventos coloridos y festivales animados en la ciudad.</p>
+                <p><a class="btn btn-primary my-2" href="/guias?tipoDeGuia=seguridad">Ver más &raquo;</a></p>
+            </div>
+        </div>
+
+
+            <!-- Atracciones -->
+
+        <section id="guias-atracciones" class="section-content">
+            <div class="container marketing">
+                <h1>Guías Rápidas De Atracciones</h1>
+                <hr>
+        
+                <!-- Iteración sobre las guías rápidas -->
+                <div th:if="${not #lists.isEmpty(guiasRapidas)}">
+
+                    <div th:each="guia : ${guiasRapidas}" class="row featurette">
+                    <!-- Información de texto -->
+                    <div class="col-md-7" th:classappend="${#lists.indexOf(guia) % 2 == 1 ? 'order-md-2' : ''}">
+                        <h2 class="featurette-heading fw-normal lh-1" th:text="${guia.titulo}">Título</h2>
+                        <p class="lead" th:text="${guia.parrafo}">Descripción</p>
+                    </div>
+        
+                    <!-- Imagen -->
+                    <div class="col-md-5">
+                        <img th:src="@{'/Images/' + ${guia.image}}" 
+                             class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
+                             alt="Imagen de la guía" style="width: 500px; height: auto;">
+                    </div>
+                    </div>
+                </div>
+                <hr class="featurette-divider">
+            </div>
+            <div th:if="${#lists.isEmpty(guias)}">
+                <p>No se encontraron guías para esta categoría.</p>
+            </div>
+        </section>
+
+    
+    
+        <!-- Comida Tipica -->
+
+
+        <section id="guias-cocina" class="section-content">
+            <div class="container marketing">
+                <h1>Guías Rápidas De Comida Típica</h1>
+                <hr>
+        
+                <!-- Iteración sobre las guías rápidas -->
+                <div th:each="guia : ${guiasRapidas}" class="row featurette">
+                    <!-- Información de texto -->
+                    <div class="col-md-7" th:classappend="${#lists.indexOf(guia) % 2 == 1 ? 'order-md-2' : ''}">
+                        <h2 class="featurette-heading fw-normal lh-1" th:text="${guia.titulo}">Título</h2>
+                        <p class="lead" th:text="${guia.parrafo}">Descripción</p>
+                    </div>
+        
+                    <!-- Imagen -->
+                    <div class="col-md-5">
+                        <img th:src="@{'/Images/' + ${guia.image}}" 
+                             class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
+                             alt="Imagen de la guía" style="width: 500px; height: auto;">
+                    </div>
+                </div>
+        
+                <hr class="featurette-divider">
+            </div>
+        </section>
+
+        <!-- Transporte -->
+
+    <section id="guias-transportes" class="section-content">
+        <div class="container marketing">
+
+            <h1>Guías Rápidas de Transporte</h1>
+            <hr>
+        
+            <!-- Iteración sobre las guías rápidas -->
+            <div th:each="guia : ${guiasRapidas}" class="row featurette">
+                <!-- Información de texto -->
+                <div class="col-md-7" th:classappend="${#lists.indexOf(guia) % 2 == 1 ? 'order-md-2' : ''}">
+                    <h2 class="featurette-heading fw-normal lh-1" th:text="${guia.titulo}">Título</h2>
+                    <p class="lead" th:text="${guia.parrafo}">Descripción</p>
+                </div>
+    
+                <!-- Imagen -->
+                <div class="col-md-5">
+                    <img th:src="@{'/Images/' + ${guia.image}}" 
+                         class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
+                         alt="Imagen de la guía" style="width: 500px; height: auto;">
+                </div>
+            </div>
+    
+            <hr class="featurette-divider">
+            </div>
+
+        </div>
+        </div>
+    </section>
+
+            <!--Seguridad -->
+
+            <section id="guias-seguridad" class="section-content">
+                <div class="container marketing">
+        
+                    <h1>Tips Rapidos De Seguridad</h1>
+                    <hr>
+                
+                    <!-- Iteración sobre las guías rápidas -->
+                    <div th:each="guia : ${guiasRapidas}" class="row featurette">
+                        <!-- Información de texto -->
+                        <div class="col-md-7" th:classappend="${#lists.indexOf(guia) % 2 == 1 ? 'order-md-2' : ''}">
+                            <h2 class="featurette-heading fw-normal lh-1" th:text="${guia.titulo}">Título</h2>
+                            <p class="lead" th:text="${guia.parrafo}">Descripción</p>
+                        </div>
+            
+                        <!-- Imagen -->
+                        <div class="col-md-5">
+                            <img th:src="@{'/Images/' + ${guia.image}}" 
+                                 class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
+                                 alt="Imagen de la guía" style="width: 500px; height: auto;">
+                        </div>
+                    </div>
+            
+                    <hr class="featurette-divider">
+                    </div>
+        
+                </div>
+                </div>
+            </section>
+
+
+</main>
+<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Ocultar todas las secciones al inicio
+      const sections = document.querySelectorAll('.section-content');
+      sections.forEach(section => section.style.display = 'none');
+
+      // Agregar evento de clic a todos los enlaces "Ver más"
+      const buttons = document.querySelectorAll('.btn-primary');
+      buttons.forEach(button => {
+        button.addEventListener('click', function (event) {
+          event.preventDefault();
+
+          // Ocultar todas las secciones
+          sections.forEach(section => section.style.display = 'none');
+
+          // Mostrar la sección correspondiente
+          const targetId = this.getAttribute('data-target');
+          document.querySelector(targetId).style.display = 'block';
+        });
+      });
+    });
+</script>
+
+
+<script src="/js/boostrap/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

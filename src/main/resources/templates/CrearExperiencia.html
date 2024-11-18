@@ -75,20 +75,19 @@
         <img class="mb-4 w-50 d-block mx-auto" src="/Images/LityLogoLogin.png" alt="Logo Lity App">
 
         <h3 class="text-center mb-4">Crear Experiencia</h3>
-          <form action="#" th:action="@{/api/admin/crear-experiencia}" th:object="${experiencia}" method="post">
+          <form action="#" th:action="@{/api/admin/crear-experiencia}" method="post" enctype="multipart/form-data">
           <!-- Imágenes de la Guía -->
-          <div class="mb-3">
-              <label for="imagenExperiencia" class="form-label">Imágenen De La Experiencia</label>
-              <input type="file" name="file" class="form-control" id="imagenExperiencia" th:field="*{image}" multiple accept="image/*">
-          </div>
+              <div class="mb-3">
+                  <label for="imagenExperiencia" class="form-label">Imágenen De La Experiencia</label>
+                  <input type="file" name="file" class="form-control" id="imagenExperiencia" accept="image/png, image/jpeg">
+              </div>
 
 
           <!-- Párrafo de la Guía -->
-          <div class="mb-3">
-            <label for="parrafoExperiencia" class="form-label">Párrafo de la Experiencia</label>
-              <textarea class="form-control" id="parrafoExperiencia" th:field="*{parrafo}" rows="4" placeholder="Escribe el contenido de la Experiencia" required></textarea>
-
-          </div>
+              <div class="mb-3">
+                  <label for="parrafoExperiencia" class="form-label">Párrafo de la Experiencia</label>
+                  <textarea class="form-control" id="parrafoExperiencia" name="parrafo" placeholder="Escribe el contenido de la Experiencia" rows="4" required></textarea>
+              </div>
 
           <!-- Botón de Guardar -->
           <div class="text-center">
