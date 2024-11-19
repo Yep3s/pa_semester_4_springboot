@@ -3,14 +3,13 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Experiencias | Lity App</title>
-    <link rel="icon" type="image/x-icon" href="/Images/LityAppFavicon2.png">
+    <title>Tours | Lity App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/product/">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <link rel="icon" type="image/x-icon" href="/Images/LityAppFavicon2.png">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/experiencia.css" rel="stylesheet">
+    <link href="/css/tour.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -48,7 +47,9 @@
     <section class="py-5 text-center container">
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
-                <h1 class="fw-light">¡Explora Las Experiencias En La Ciudad De Cartagena!</h1>
+                <h1 class="fw-light">¡Tours Exclusivos para Todos los Gustos!</h1>
+                <p class="lead text-muted">Explora Cartagena con nuestros tours únicos, vive aventuras inolvidables en cada rincón de la ciudad.</p>
+
             </div>
         </div>
     </section>
@@ -57,25 +58,31 @@
         <div class="container">
 
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                <div class="col" th:each="experiencia : ${experiencias}">
+                <div class="col" th:each="tour : ${tours}">
                     <div class="card shadow-sm">
-                        <img th:src="${experiencia.getImage()}" class="d-block w-100" alt="Descripción de la imagen" width="100%" height="225">
-
+                        <img th:src="${tour.getImage()}" class="d-block w-100" alt="Descripción de la imagen" width="100%" height="225">
 
                         <div class="card-body">
-                            <p class="card-text" th:text="${experiencia.getParrafo()}"></p>
+                            <h4 class="fw-light" th:text="${tour.nombreTour}">Nombre Del Tour</h4>
+                            <p class="card-text" th:text="${tour.descripcionTour}">Descripcion Del Tour</p>
                             <div class="d-flex justify-content-between align-items-center">
-
-
-                            </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" th:text="'$' + ${tour.precio} + ' COP'">Precio</button>
+                                </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" th:text="'Agencia: ' + ${tour.agencia}">Agencia De Turismo</button>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" th:text="${tour.contacto}">Numero</button>
+                            </div> 
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div>>        
     </div>
-
 </main>
+
+<!---- Footer --->
 
 <footer class="container py-5">
     <div class="row">
@@ -106,7 +113,7 @@
 
 
 <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
-<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/boostrap/bootstrap.bundle.min.js"></script>
 
 
 </body>

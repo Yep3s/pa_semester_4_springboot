@@ -1,9 +1,7 @@
 package com.LityAppAdmin.Controller;
 
 import com.LityAppAdmin.Model.ExperienciaModel;
-import com.LityAppAdmin.Model.GuiaRapidaModel;
 import com.LityAppAdmin.Repository.IExperienciaRepository;
-import com.LityAppAdmin.Service.ExperienciaService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +14,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Optional;
 import java.util.UUID;
 
 
@@ -103,13 +100,17 @@ public class ExperienciasAdminController {
     }
 
     @PostMapping("/actualizar-experiencia/{id}")
-    public String updateUser(@PathVariable("id") long id, ExperienciaModel experiencia,
-                             BindingResult result, Model model,HttpSession session) {
+    public String actualizarExperiencia(@PathVariable("id") long id,
+                                        @RequestParam(value = "file", required = false) MultipartFile file,
+                                        @ModelAttribute ExperienciaModel experiencia,
+                                        BindingResult result, Model model, HttpSession session) {
+
         if (result.hasErrors()) {
             experiencia.setId(id);
             return "EditarExperiencia";
         }
 
+        // Obtener el correo del administrador desde la sesión
         String correoAdministrador;
         try {
             correoAdministrador = obtenerCorreoAdministrador(session);
@@ -119,16 +120,54 @@ public class ExperienciasAdminController {
         }
         experiencia.setCorreoAdministrador(correoAdministrador);
 
-        if (experiencia.getImage() == null || experiencia.getImage().isEmpty()) {
-            ExperienciaModel imagenExistente = experienciasRepository.findById(id).orElse(null);
-            if (imagenExistente != null) {
-                experiencia.setImage(imagenExistente.getImage()); // Mantener la ruta de la imagen anterior
+        // Verifica si hay un archivo nuevo y si es válido
+        if (file != null && !file.isEmpty()) {
+            System.out.println("Archivo recibido: " + file.getOriginalFilename()); // Agrega esta línea para ver si el archivo se recibe
+            String originalFileName = file.getOriginalFilename();
+            if (originalFileName != null &&
+                    (originalFileName.endsWith(".png") || originalFileName.endsWith(".jpeg") || originalFileName.endsWith(".jpg"))) {
+
+                // Generar un UUID corto (4 caracteres)
+                String shortUUID = UUID.randomUUID().toString().substring(0, 4);
+
+                // Crear el nombre único del archivo
+                String uniqueFileName = shortUUID + "_" + originalFileName;
+                Path filePath = Paths.get("uploads", uniqueFileName);
+
+                try {
+                    // Crear el directorio uploads si no existe
+                    Files.createDirectories(filePath.getParent());
+                    System.out.println("Ruta de archivo: " + filePath.toString()); // Verifica que la ruta esté correcta
+
+                    // Transferir el archivo
+                    file.transferTo(filePath);
+                    System.out.println("Archivo guardado exitosamente en: " + filePath.toString()); // Verifica si el archivo se guarda
+
+                    // Actualizar la ruta de la imagen en la base de datos
+                    experiencia.setImage("/uploads/" + uniqueFileName);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException("Error al guardar la imagen", e);
+                }
+            } else {
+                throw new IllegalArgumentException("Tipo de archivo no permitido. Solo se aceptan .png, .jpeg y .jpg");
+            }
+        } else {
+            // Si no hay archivo nuevo, conserva la imagen existente
+            ExperienciaModel experienciaExistente = experienciasRepository.findById(id).orElse(null);
+            if (experienciaExistente != null) {
+                experiencia.setImage(experienciaExistente.getImage());
             }
         }
 
+        // Guardar o actualizar la experiencia en la base de datos
         experienciasRepository.save(experiencia);
+        System.out.println("Experiencia guardada: " + experiencia.getId() + ", Imagen: " + experiencia.getImage()); // Verifica si la imagen se actualiza en la base de datos
+
         return "redirect:/api/admin/ver-experiencias";
     }
+
 
     @GetMapping("/eliminar-experiencia/{id}")
     public String deleteGuia(@PathVariable("id") long id, Model model) {

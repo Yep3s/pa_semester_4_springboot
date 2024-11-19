@@ -75,11 +75,11 @@
         <img class="mb-4 w-50 d-block mx-auto" src="/Images/LityLogoLogin.png" alt="Logo Lity App">
 
         <h3 class="text-center mb-4">Editar Experiencia</h3>
-        <form action="#" th:action="@{/api/admin/actualizar-experiencia/{id}(id=${experiencia.id})}" th:object="${experiencia}" method="post">
+        <form action="#" th:action="@{/api/admin/actualizar-experiencia/{id}(id=${experiencia.id})}" th:object="${experiencia}" method="post" enctype="multipart/form-data">
             <!-- Imágenes de la Guía -->
             <div class="mb-3">
                 <label for="imagenExperiencia" class="form-label">Imágenen De La Experiencia</label>
-                <input type="file" name="file" class="form-control" id="imagenExperiencia" th:field="*{image}" multiple accept="image/*">
+                <input type="file" name="file" class="form-control" id="imagenExperiencia" accept="image/png, image/jpeg">
             </div>
 
 

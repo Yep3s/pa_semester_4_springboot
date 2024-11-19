@@ -1,5 +1,6 @@
 package com.LityAppAdmin.Controller;
 
+import com.LityAppAdmin.Model.ExperienciaModel;
 import com.LityAppAdmin.Model.GuiaRapidaModel;
 import com.LityAppAdmin.Model.TourModel;
 import com.LityAppAdmin.Repository.ITourRepository;
@@ -8,10 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/api/admin")
@@ -41,19 +46,37 @@ public class ToursAdminController {
 
 
     @PostMapping("/crear-tour")
-    public String crearTour(HttpSession session,TourModel tour, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            return "CrearTour";
+    public String crearTour(@RequestParam("file") MultipartFile file, @ModelAttribute TourModel tour ,HttpSession session) {
+
+        // Obtener correo del administrador desde la sesión
+        String correoAdmin = obtenerCorreoAdministrador(session);
+        tour.setCorreoAdministrador(correoAdmin);
+
+        // Validar si el archivo tiene una extensión permitida
+        if (!file.isEmpty()) {
+            String originalFileName = file.getOriginalFilename();
+            if (originalFileName != null &&
+                    (originalFileName.endsWith(".png") || originalFileName.endsWith(".jpeg") || originalFileName.endsWith(".jpg"))) {
+
+                // Generar un UUID corto (4 caracteres)
+                String shortUUID = UUID.randomUUID().toString().substring(0, 4);
+
+                // Crear el nombre único del archivo
+                String uniqueFileName = shortUUID + "_" + originalFileName;
+                Path filePath = Paths.get("uploads", uniqueFileName);
+
+                try {
+                    Files.createDirectories(filePath.getParent());
+                    file.transferTo(filePath);
+                    tour.setImage("/uploads/" + uniqueFileName);
+                } catch (IOException e) {
+                    throw new RuntimeException("Error al guardar la imagen", e);
+                }
+            }else {
+                throw new IllegalArgumentException("Tipo de archivo no permitido. Solo se aceptan .png, .jpeg y .jpg");
+            }
         }
 
-        String correoAdministrador;
-        try {
-            correoAdministrador = obtenerCorreoAdministrador(session);
-        } catch (IllegalStateException e) {
-            model.addAttribute("error", "No hay un administrador en sesión.");
-            return "/api/admin/IndexAdmin";
-        }
-        tour.setCorreoAdministrador(correoAdministrador);
         tourRepository.save(tour);
         return "redirect:/api/admin/ver-tours";
 
@@ -74,7 +97,7 @@ public class ToursAdminController {
     }
 
     @PostMapping("/actualizar-tour/{id}")
-    public String updateUser(@PathVariable("id") long id, TourModel tour,
+    public String updateUser(@PathVariable("id") long id,@RequestParam(value = "file", required = false) MultipartFile file, @ModelAttribute TourModel tour,
                              BindingResult result, Model model,HttpSession session) {
         if (result.hasErrors()) {
             tour.setId(id);
@@ -90,12 +113,47 @@ public class ToursAdminController {
         }
         tour.setCorreoAdministrador(correoAdministrador);
 
-        if (tour.getImage() == null || tour.getImage().isEmpty()) {
-            TourModel imagenExistente = tourRepository.findById(id).orElse(null);
-            if (imagenExistente != null) {
-                tour.setImage(imagenExistente.getImage()); // Mantener la ruta de la imagen anterior
+        if (file != null && !file.isEmpty()) {
+            System.out.println("Archivo recibido: " + file.getOriginalFilename()); // Agrega esta línea para ver si el archivo se recibe
+            String originalFileName = file.getOriginalFilename();
+            if (originalFileName != null &&
+                    (originalFileName.endsWith(".png") || originalFileName.endsWith(".jpeg") || originalFileName.endsWith(".jpg"))) {
+
+                // Generar un UUID corto (4 caracteres)
+                String shortUUID = UUID.randomUUID().toString().substring(0, 4);
+
+                // Crear el nombre único del archivo
+                String uniqueFileName = shortUUID + "_" + originalFileName;
+                Path filePath = Paths.get("uploads", uniqueFileName);
+
+                try {
+                    // Crear el directorio uploads si no existe
+                    Files.createDirectories(filePath.getParent());
+                    System.out.println("Ruta de archivo: " + filePath.toString()); // Verifica que la ruta esté correcta
+
+                    // Transferir el archivo
+                    file.transferTo(filePath);
+                    System.out.println("Archivo guardado exitosamente en: " + filePath.toString()); // Verifica si el archivo se guarda
+
+                    // Actualizar la ruta de la imagen en la base de datos
+                    tour.setImage("/uploads/" + uniqueFileName);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException("Error al guardar la imagen", e);
+                }
+            } else {
+                throw new IllegalArgumentException("Tipo de archivo no permitido. Solo se aceptan .png, .jpeg y .jpg");
+            }
+        } else {
+            // Si no hay archivo nuevo, conserva la imagen existente
+            TourModel tourExistente = tourRepository.findById(id).orElse(null);
+            if (tourExistente != null) {
+                tour.setImage(tourExistente.getImage());
             }
         }
+
+
 
         tourRepository.save(tour);
         return "redirect:/api/admin/ver-tours";

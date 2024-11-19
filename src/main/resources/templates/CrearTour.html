@@ -75,37 +75,38 @@
         <img class="mb-4 w-50 d-block mx-auto" src="/Images/LityLogoLogin.png" alt="Logo Lity App">
 
         <h3 class="text-center mb-4">Crear Tour</h3>
-        <form action="#" th:action="@{/api/admin/crear-tour}" th:object="${tour}" method="post">
+        <form action="#" th:action="@{/api/admin/crear-tour}" method="post" enctype="multipart/form-data">
+
           <!-- Título del Tour -->
           <div class="mb-3">
             <label for="nombreTour" class="form-label">Nombre Del Tour</label>
-            <input type="text" class="form-control" id="nombreTour" th:field="*{nombreTour}" placeholder="Ingresa el Nombre Del Tour" required>
+            <input type="text" class="form-control" id="nombreTour" name="nombreTour" placeholder="Ingresa el Nombre Del Tour" required>
           </div>
 
           <!-- Párrafo de la Guía -->
           <div class="mb-3">
             <label for="descripcionTour" class="form-label">Descripcion Del Tour</label>
-            <textarea class="form-control" id="descripcionTour" rows="4" th:field="*{descripcionTour}" placeholder="Escribe la Descripcion Del Tour" required></textarea>
+            <textarea class="form-control" id="descripcionTour" name="descripcionTour" rows="4" placeholder="Escribe la Descripcion Del Tour" required></textarea>
           </div>
 
           <!-- Imágenes del Tour -->
           <div class="mb-3">
-            <label for="imagenTour" class="form-label">Imágenes Del Tour</label>
-            <input type="file" name="file" class="form-control" id="imagenTour" th:field="*{image}" multiple accept="image/*">
+            <label for="imagenExperiencia" class="form-label">Imágenen De La Experiencia</label>
+            <input type="file" name="file" class="form-control" id="imagenExperiencia" accept="image/png, image/jpeg">
           </div>
 
           <!-- Precio Del Tour -->
-            <div class="mb-3">
-            <label for="precioTour" class="form-label">Precio Del Tour $</label>
-            <input type="text" class="form-control" id="precioTour" th:field="*{precio}" placeholder="Ingresa El Valor Del Tour" required>
-            </div>
+          <div class="mb-3">
+            <label for="precio" class="form-label">Precio Del Tour $</label>
+            <input type="text" class="form-control" id="precio" name="precio" placeholder="Ingresa El Valor Del Tour" required>
+          </div>
 
           <!-- Tipo de Guía Rápida -->
           <div class="mb-3">
-            <label for="agenciaTour" class="form-label">Agencia Del Tour</label>
-            <select class="form-select" id="agenciaTour" th:field="*{agencia}" required>
+            <label for="agencia" class="form-label">Agencia Del Tour</label>
+            <select class="form-select" id="agencia" name="agencia" required>
               <option value="" selected disabled>Selecciona La Agencia Que Gestiona El Tour</option>
-              <option value="CaribeTour">Guía Rápida de Atracciones</option>
+              <option value="CaribeTour">CaribeTour</option>
               <option value="SalyTour">SalyTour</option>
               <option value="EncantoTours">EncantoTour</option>
               <option value="HostiaTour">HostiaTour</option>
@@ -113,11 +114,11 @@
           </div>
 
           <!-- Contacto Del Tour -->
-            <div class="mb-3">
-            <label for="contactoTour" class="form-label">Contacto Del Tour</label>
-            <input type="text" class="form-control" id="contactoTour"  th:field="*{contacto}" placeholder="Ingresa El Numero De Contacto Para El Tour" required>
-            </div>
-            
+          <div class="mb-3">
+            <label for="contacto" class="form-label">Contacto Del Tour</label>
+            <input type="text" class="form-control" id="contacto" name="contacto" placeholder="Ingresa El Numero De Contacto Para El Tour" required>
+          </div>
+
           <!-- Botón de Guardar -->
           <div class="text-center">
             <button type="submit" class="btn btn-primary">Crear Tour</button>

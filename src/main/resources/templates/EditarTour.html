@@ -75,7 +75,7 @@
         <img class="mb-4 w-50 d-block mx-auto" src="/Images/LityLogoLogin.png" alt="Logo Lity App">
 
         <h3 class="text-center mb-4">Editar Tour</h3>
-        <form action="#" th:action="@{/api/admin/actualizar-tour/{id}(id=${tour.id})}" th:object="${tour}" method="post">
+        <form action="#" th:action="@{/api/admin/actualizar-tour/{id}(id=${tour.id})}" th:object="${tour}" method="post" enctype="multipart/form-data">
           <!-- Título del Tour -->
           <div class="mb-3">
             <label for="nombreTour" class="form-label">Nombre Del Tour</label>
@@ -91,7 +91,7 @@
           <!-- Imágenes del Tour -->
           <div class="mb-3">
             <label for="imagenTour" class="form-label">Imágenes Del Tour</label>
-            <input type="file" name="file" class="form-control" id="imagenTour" th:field="*{image}" multiple accept="image/*">
+            <input type="file" name="file" class="form-control" id="imagenTour" accept="image/png, image/jpeg">
           </div>
 
           <!-- Precio Del Tour -->
@@ -105,7 +105,7 @@
             <label for="agenciaTour" class="form-label">Agencia Del Tour</label>
             <select class="form-select" id="agenciaTour" th:field="*{agencia}" required>
               <option value="" selected disabled>Selecciona La Agencia Que Gestiona El Tour</option>
-              <option value="CaribeTour">Guía Rápida de Atracciones</option>
+              <option value="CaribeTour">CaribeTour</option>
               <option value="SalyTour">SalyTour</option>
               <option value="EncantoTours">EncantoTour</option>
               <option value="HostiaTour">HostiaTour</option>
@@ -120,7 +120,7 @@
             
           <!-- Botón de Guardar -->
           <div class="text-center">
-            <button type="submit" class="btn btn-primary">Crear Tour</button>
+            <button type="submit" class="btn btn-primary">Guardar Tour</button>
           </div>
         </form>
       </div>
