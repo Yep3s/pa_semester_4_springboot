@@ -1,7 +1,6 @@
 package com.LityAppAdmin.Controller;
 
 import com.LityAppAdmin.Model.ExperienciaModel;
-import com.LityAppAdmin.Repository.IExperienciaRepository;
 import com.LityAppAdmin.Service.ExperienciaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

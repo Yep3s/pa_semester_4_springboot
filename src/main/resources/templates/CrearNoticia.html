@@ -75,30 +75,30 @@
         <img class="mb-4 w-50 d-block mx-auto" src="/Images/LityLogoLogin.png" alt="Logo Lity App">
 
         <h3 class="text-center mb-4">Crear Noticia</h3>
-        <form action="#" th:action="@{/api/admin/crear-noticia}" th:object="${noticia}" method="post">
+        <form action="#" th:action="@{/api/admin/crear-noticia}"  method="post" enctype="multipart/form-data">
           <!-- Tipo de Noticia -->
           <div class="mb-3">
             <label for="tipoDeNoticia" class="form-label">Tipo de Noticia</label>
-            <select class="form-select" id="tipoDeNoticia" th:field="*{tipoDeNoticia}" required>
+            <select class="form-select" id="tipoDeNoticia" name="tipoDeNoticia" required>
               <option value="" selected disabled>Selecciona un tipo de noticia</option>
-              <option value="Tipo De Noticia 1">Tipo De Noticia 1</option>
-              <option value="Tipo De Noticia 2">Tipo De Noticia 2</option>
-              <option value="Tipo De Noticia 3">Tipo De Noticia 3</option>
-              <option value="Tipo De Noticia 4">Tipo De Noticia 4</option>
+              <option value="Noticias de actualidad">Noticias de actualidad</option>
+              <option value="Noticias deportivas">Noticias deportivas</option>
+              <option value="Noticias gastronomicas">Noticias gastronomicas</option>
+              <option value="Noticias de entretenimiento">Noticias de entretenimiento</option>
             </select>
           </div>    
 
           <!-- Título de la Experiencia -->
           <div class="mb-3">
             <label for="titulo" class="form-label">Título de la Noticia</label>
-            <input type="text" class="form-control" id="titulo" th:field="*{titulo}" placeholder="Ingresa el título de la Noticia" required>
+            <input type="text" class="form-control" id="titulo" placeholder="Ingresa el título de la Noticia" name="titulo" required>
           </div>
 
           
           <!-- Párrafo de la Guía -->
           <div class="mb-3">
             <label for="parrafo" class="form-label">Párrafo de la Noticia</label>
-            <textarea class="form-control" id="parrafo" th:field="*{parrafo}" rows="4" placeholder="Escribe el contenido de la Noticia" required></textarea>
+            <textarea class="form-control" id="parrafo" rows="4" placeholder="Escribe el contenido de la Noticia" name="parrafo" required></textarea>
           </div>
 
 
@@ -106,7 +106,7 @@
           <!-- Imágenes de la Noticia -->
           <div class="mb-3">
             <label for="image" class="form-label">Imágenen De La Noticia</label>
-            <input type="file" name="file" class="form-control" id="image" th:field="*{image}" multiple accept="image/*">
+            <input type="file" name="file" class="form-control" id="image" accept="image/png, image/jpeg">
           </div>
 
           <!-- Botón de Guardar -->

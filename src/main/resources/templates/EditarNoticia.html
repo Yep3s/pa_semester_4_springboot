@@ -75,16 +75,16 @@
         <img class="mb-4 w-50 d-block mx-auto" src="/Images/LityLogoLogin.png" alt="Logo Lity App">
 
         <h3 class="text-center mb-4">Editar Noticia</h3>
-        <form action="#" th:action="@{/api/admin/actualizar-noticia/{id}(id=${noticia.id})}" th:object="${noticia}" method="post">
+        <form action="#" th:action="@{/api/admin/actualizar-noticia/{id}(id=${noticia.id})}" th:object="${noticia}" method="post" enctype="multipart/form-data">
           <!-- Tipo de Noticia -->
           <div class="mb-3">
             <label for="tipoNoticia" class="form-label">Tipo de Noticia</label>
             <select class="form-select" id="tipoNoticia" th:field="*{tipoDeNoticia}" required>
               <option value="" selected disabled>Selecciona un tipo de noticia</option>
-              <option value="Tipo De Noticia 1">Tipo De Noticia 1</option>
-              <option value="Tipo De Noticia 2">Tipo De Noticia 2</option>
-              <option value="Tipo De Noticia 3">Tipo De Noticia 3</option>
-              <option value="Tipo De Noticia 4">Tipo De Noticia 4</option>
+              <option value="Noticias de actualidad">Noticias de actualidad</option>
+              <option value="Noticias deportivas">Noticias deportivas</option>
+              <option value="Noticias gastronomicas">Noticias gastronomicas</option>
+              <option value="Noticias de entretenimiento">Noticias de entretenimiento</option>
             </select>
           </div>    
 
@@ -105,8 +105,8 @@
 
           <!-- Imágenes de la Noticia -->
           <div class="mb-3">
-            <label for="imagenNoticia" class="form-label">Imágenen De La Noticia</label>
-            <input type="file" name="file" class="form-control" id="imagenNoticia" th:field="*{image}" multiple accept="image/*">
+            <label for="imagenExperiencia" class="form-label">Imágenen De La Noticia</label>
+            <input type="file" name="file" class="form-control" id="imagenExperiencia" accept="image/png, image/jpeg">
           </div>
 
           <!-- Botón de Guardar -->

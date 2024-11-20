@@ -1,0 +1,119 @@
+  <!doctype html>
+<html lang="es-CO" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <script src="../assets/js/color-modes.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Noticias | Lity App</title>
+    <link rel="icon" type="image/x-icon" href="/Images/LityAppFavicon2.png">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/carousel.css" rel="stylesheet">
+    
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-md bg-dark sticky-top" data-bs-theme="dark">
+    <div class="container">
+        <a class="navbar-brand" href="/api/lity/">
+            <img src="/images/LityAppLogo2.png" alt="Lity App" width="70" height="50">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+                aria-controls="offcanvasNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Lity App</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item"><a class="nav-link" href="/api/lity/">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/api/lity/guiasRapidasUser">Guías Rápidas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/api/lity/experienciasUser">Experiencias</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/api/lity/noticiasUser">Noticias</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/api/lity/toursUser">Tour por la ciudad</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main>
+
+    <div class="container marketing">
+
+    
+        <section class="py-5 text-center container">
+            <div class="row py-lg-5">
+                <div class="col-lg-6 col-md-8 mx-auto">
+                    <h1 class="fw-light">¡Noticias en Cartagena de Indias!</h1>
+
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+        <div class="row mt-4 align-items-center" th:each="noticia : ${noticias}">
+            <!-- Texto de la noticia -->
+            <div class="col-md-6">
+                <h2 id="cultura" class="featurette-heading fw-normal lh-1" th:text="${noticia.getTitulo()}">Esto es un titulo</h2>
+                <p class="lead" th:text="${noticia.getParrafo()}">Este es un parrafo</p>
+                <button type="button" class="btn btn-sm btn-outline-secondary" th:text="${noticia.getTipoDeNoticia()}">Tipo De Noticia</button>
+            </div>
+
+            <!-- Imagen de la noticia -->
+            <div class="col-md-6 text-center">
+                <img th:src="${noticia.getImage()}"
+                     class="img-fluid rounded shadow"
+                     alt="Imagen de la noticia"
+                     style="max-width: 100%; height: auto; object-fit: cover;">
+            </div>
+
+            <hr class="featurette-divider">
+        </div>
+
+
+        
+
+    </div>
+
+
+    <footer class="container py-5">
+        <div class="row">
+            <div class="col-12 col-md">
+                <img src="/images/LityAppLogo2.png" alt="Lity App" width="180" height="140">
+    
+            </div>
+            <div class="col-6 col-md">
+                <h5>Lity App</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="link-secondary text-decoration-none" href="#">Telefono: +57 3017547912</a></li>
+                    <li><a class="link-secondary text-decoration-none" href="#">Correo: lityapp@gmail.com</a></li>
+                    <li><a class="link-secondary text-decoration-none" href="#">Siguenos En Instagram Como @lityapp</a></li>
+    
+                </ul>
+            </div>
+    
+            <div class="col-6 col-md">
+                <h5>Informacion</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="link-secondary text-decoration-none" href="#">Avenida San Martín, #10-20 Zona Norte, Cartagena Bolívar, Colombia</a></li>
+                    <small class="d-block mb-3 text-body-secondary">&copy;Lity App 2024</small>
+    
+                </ul>
+            </div>
+        </div>
+    </footer>
+</main>
+<script src="/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
