@@ -61,7 +61,7 @@
         <section class="py-5 text-center container">
             <div class="row py-lg-5">
                 <div class="col-lg-6 col-md-8 mx-auto">
-                    <h1 class="fw-light">¡Noticias en Cartagena de Indias!</h1>
+                    <h1 class="fw-light">¡Guias Rapidas De Transporte!</h1>
 
                 </div>
             </div>
@@ -69,21 +69,28 @@
 
         <hr>
 
-        <div class="row mt-4 align-items-center" th:each="noticia : ${noticias}">
-            <!-- Texto de la noticia -->
-            <div class="col-md-6">
-                <h2 id="cultura" class="featurette-heading fw-normal lh-1" th:text="${noticia.getTitulo()}">Esto es un titulo</h2>
-                <p class="lead" th:text="${noticia.getParrafo()}">Este es un parrafo</p>
-                <button type="button" class="btn btn-sm btn-outline-secondary" th:text="${noticia.getTipoDeNoticia()}">Tipo De Noticia</button>
-            </div>
+        <div th:if="${guias.isEmpty()}">
+            <p>No hay guías disponibles en esta categoría.</p>
+        </div>
 
-            <!-- Imagen de la noticia -->
+        <div th:each="guia : ${guias}" class="row mt-4 align-items-center">
+            <!-- Imagen de la guia rapida -->
             <div class="col-md-6 text-center">
-                <img th:src="${noticia.getImage()}"
-                     class="img-fluid rounded shadow"
+                <img th:src="@{${guia.image}}" class="img-fluid rounded shadow"
                      alt="Imagen de la noticia"
                      style="max-width: 100%; height: auto; object-fit: cover;">
             </div>
+
+
+            <!-- Texto de la guia rapida -->
+            <div class="col-md-6">
+                <h2 id="cultura" th:text="${guia.titulo}" class="featurette-heading fw-normal lh-1" >Esto es un titulo</h2>
+                <p th:text="${guia.parrafo}" class="lead">Este es un parrafo</p>
+                <button type="button" class="btn btn-sm btn-outline-secondary" th:text="${guia.tipoDeGuia}">Tipo De Guia</button>
+
+            </div>
+
+
 
             <hr class="featurette-divider">
         </div>

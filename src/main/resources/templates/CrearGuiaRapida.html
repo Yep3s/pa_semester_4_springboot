@@ -72,11 +72,11 @@
     <img class="mb-4 w-50 d-block mx-auto" src="/Images/LityLogoLogin.png" alt="Logo Lity App">
 
     <h3 class="text-center mb-4">Crear Guía Rápida</h3>
-    <form action="#" th:action="@{/api/admin/crear-guia-rapida}" th:object="${guia}" method="post">
+    <form action="#" th:action="@{/api/admin/crear-guia-rapida}" method="post" enctype="multipart/form-data">
       <!-- Tipo de Guía Rápida -->
       <div class="mb-3">
         <label for="tipoDeGuia" class="form-label">Tipo de Guía Rápida</label>
-        <select class="form-select" id="tipoDeGuia" th:field="*{tipoDeGuia}" required>
+        <select class="form-select" id="tipoDeGuia" name="tipoDeGuia" required>
           <option value="" selected disabled>Selecciona un tipo de guía</option>
           <option value="Atracciones">Guía Rápida de Atracciones</option>
           <option value="Comida Típica">Guía Rápida de Comida Típica</option>
@@ -88,19 +88,19 @@
       <!-- Título de la Guía -->
       <div class="mb-3">
         <label for="titulo" class="form-label">Título de la Guía</label>
-        <input type="text" class="form-control" id="titulo" th:field="*{titulo}" placeholder="Ingresa el título de la guía" required>
+        <input type="text" class="form-control" id="titulo" placeholder="Ingresa el título de la guía" name="titulo" required>
       </div>
 
       <!-- Párrafo de la Guía -->
       <div class="mb-3">
         <label for="parrafo" class="form-label">Párrafo de la Guía</label>
-        <textarea class="form-control" id="parrafo" th:field="*{parrafo}" rows="4" placeholder="Escribe el contenido de la guía" required></textarea>
+        <textarea class="form-control" id="parrafo" rows="4" placeholder="Escribe el contenido de la guía" name="parrafo" required></textarea>
       </div>
 
       <!-- Imágen de la Guía -->
       <div class="mb-3">
         <label for="imagen" class="form-label">Imágenes de la Guía</label>
-        <input type="file" name="file" class="form-control" id="imagen" th:field="*{image}" multiple accept="image/*">
+        <input type="file" name="file" class="form-control" id="imagen" accept="image/png, image/jpeg">
       </div>
 
       <!-- Botón de Guardar -->

@@ -72,7 +72,7 @@
     <img class="mb-4 w-50 d-block mx-auto" src="/Images/LityLogoLogin.png" alt="Logo Lity App">
 
     <h3 class="text-center mb-4">Editar Guía Rápida</h3>
-    <form action="#" th:action="@{/api/admin/actualizar-guia-rapida/{id}(id=${guia.id})}" th:object="${guia}" method="post">
+    <form action="#" th:action="@{/api/admin/actualizar-guia-rapida/{id}(id=${guia.id})}" th:object="${guia}" method="post" enctype="multipart/form-data">
       <!-- Tipo de Guía Rápida -->
       <div class="mb-3">
         <label for="tipoDeGuia" class="form-label">Tipo de Guía Rápida</label>
@@ -100,7 +100,7 @@
       <!-- Imágen de la Guía -->
       <div class="mb-3">
         <label for="imagen" class="form-label">Imágenes de la Guía</label>
-        <input type="file" name="file" class="form-control" id="imagen" th:field="*{image}" multiple accept="image/*">
+        <input type="file" name="file" class="form-control" id="imagen" accept="image/png, image/jpeg">
       </div>
 
       <!-- Botón de Guardar -->
